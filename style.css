@@ -1,0 +1,588 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Nav barin tyyli */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0a0a0a;
+    height: 123px;
+    padding: 0 69px;
+    color: #ffffff;
+    border-bottom: #07a04a solid 1px;
+}
+
+.logo {
+    width: 296px;
+    height: 57px;
+}
+
+.nav-links {
+    margin-top: 12px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.nav-links li {
+    margin-right: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: 0;
+    position: relative;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.icon {
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+/* Lisätty kääntyvä ikoni */
+.has-dropdown:hover .icon {
+    transform: rotate(180deg);
+}
+
+/* Tyyli alamenuille */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: whitesmoke;
+    opacity: 0.9;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 0;
+    min-width: 100%;
+    z-index: 1;
+    border-top: 2px solid #07a04a;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.submenu ul li a {
+    border-bottom: 1px solid #DF2835;
+    padding-bottom: 5px;
+}
+
+
+.submenu ul li a {
+    display: inline-block; 
+    text-align: center; /* Lisätty vaakasuuntainen keskittäminen VAIVALLA.. */
+    color: #0a0a0a;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.submenu ul li a.submenu-link {
+    text-align: center;
+}
+
+
+.has-dropdown ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-left: 0; 
+}
+
+.has-dropdown li {
+    margin: 0;
+    padding: 5px 5px; 
+    text-align: center;
+    font-size: 15px;
+}
+
+.has-dropdown:hover .submenu {
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.join-button {
+    text-decoration: none;
+    background-color: #df2835;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+    
+}
+
+.login-button {
+    text-decoration: none;
+    background-color: #068d40;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+
+.login-button:hover {
+    background-color: #d11622;
+}
+
+.join-button:hover {
+    background-color: #068d40;
+}
+
+/* Welcome Sectionin tyyli */
+.welcome-section {
+    height: 640px;
+    border-bottom: 1px solid #ff0606;
+    background-image: url('assets/header.jpg');
+    background-size: cover;
+    background-position: 50% 50%;
+    position: relative;
+}
+
+.welcome-image {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(5, 5, 5, 0.339);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.welcome-content {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.welcome-content h1 {
+    font-family: "Nunito-Regular", sans-serif;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.price-text {
+    font-family: "Montserrat-ExtraBold", sans-serif;
+    font-weight: 800;
+    color: #ff0606;
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.welcome-join-button {
+    background-color: #07a04a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    
+}
+
+.welcome-join-button:hover{
+    background-color: #066e33;
+}
+
+/* Tyyli why_us_sectionille */
+.why-us-section {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: #07a04a solid 20px;
+    background-color: #0a0a0a
+}
+
+/* Tyyli otsikolle */
+.why-us-section h1 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 50px;
+}
+
+/* Tyyli why-us-boxeille */
+.why-us-boxes {
+    display: flex;
+    padding: 0 64px;
+}
+
+/* Tyyli yksittäiselle why-us-boxille */
+.why-us-box {
+    width: calc(90% / 3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 25px;
+    background-color: #0a0a0a;
+    padding: 20px;
+    
+}
+
+.why-us-box p{
+    color: white;
+    margin-top: 10px;
+    font-size: 17px;
+}
+
+
+/* Tyyli ikoneille */
+.why-us-box img {
+    width: 48px;
+    height: 48px;
+}
+
+/* Tyyli tekstikuvaukselle */
+.why-us-box h2 {
+    margin-top: 10px;
+    color: #07a04a;
+    font-size: 17px;
+}
+
+/*memeber container styles*/
+.mbr-container h1, h2{
+    padding: 5px;
+    color: white;
+}
+.mbr-container {
+    height: 23rem;
+    background: linear-gradient(to bottom, #202A46, #2C3C57, #334762);
+    text-align: center;
+    padding: 25px;
+}
+
+.membership-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.membership-option {
+    width: calc(33.33% - 90px);
+    padding: 20px;
+    background-color: bisque;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 15px;
+    box-shadow: 0 30px 20px -5px rgba(0, 0, 0, 0.6);
+}
+
+.membership-option:nth-child(2) {
+    transform: scale(1.05);
+}
+
+
+/* .membership-option:first-child {
+    margin-left: 200px;
+}
+
+.membership-option:last-child {
+    margin-right: 200px;
+} */
+
+.membership-option h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+
+.price {
+    color: #ff0606;
+    font-size: 28px;
+    font-family: "Nunito-Bold", Helvetica;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.mber-join-button {
+    background-color: #07a04a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 40px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", Helvetica;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+}
+
+.note {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #07a04a;
+}
+
+
+/* Info1 tyylit */
+
+.info-section {
+    padding: 70px;
+    display: flex;
+    align-items: center;
+/*     background: linear-gradient(to top, #202A46, #2C3C57, #334762);
+ */    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.90), #0a0a0a);
+    border-top: #DF2835 solid 20px;
+    border-bottom: #DF2835 solid 10px;
+}
+
+.info-image img {
+  border-radius: 20px;
+}
+
+.info-text {
+    margin-left: 82px;
+    
+}
+
+.info-text h2 {
+    font-size: 36px;
+    margin-bottom: 25px;
+    color: white;
+    text-align: center;
+}
+
+.info-text .yellow-text {
+    color: yellow;
+    font-size: 30px;
+    margin-bottom: 36px;
+    text-align: center;
+}
+
+.info-text p {
+    color: whitesmoke;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+}
+
+/* info-section2 stylee */
+
+.info-section2 {
+    height: 1100px;
+    background: linear-gradient(to bottom, #202A46, #2C3C57, #334762);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: #fff;
+    text-align: center;
+    border-bottom: #DF2835 solid 10px;
+}
+
+.info-section2 h2 {
+    margin-top: 65px;
+    font-size: 36px;
+}
+
+.yellow-line1 {
+    width: 217px;
+    height: 4px;
+    background-color: yellow;
+    margin-top: 20px;
+}
+
+.yellow-line2{
+    width: 113px;
+    height: 4px;
+    background-color: yellow;
+    margin-top: 20px;
+}
+
+.info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 1150px;
+    padding: 0 65px;
+    margin-top: 3rem;
+}
+
+.info-block .icon-title-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.info-block img {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.info-block h3 {
+    color: yellow;
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+.info-block p {
+    margin-left: 60px; /* Lisätty marginaali */
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+    padding: 10px;
+    font-size: 20px;
+    line-height: 30px;
+    white-space: normal; 
+    text-align: justify;
+}
+
+
+.yellow-text2 {
+    width: 85%;
+    margin-top: 65px;
+    font-size: 20px;
+    color:yellow ;
+}
+
+/* Footer-style */
+/*
+!Muistutus tietyn elementin valinnasta!
+ .footer-section:nth-of-type(2) {
+    background-color: #07a04a;
+} */
+
+
+.footer {
+    position: relative;
+    height: 280px;
+    background-color: #fff;
+    padding: 0 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+.footer-logo img {
+    width: 369px;
+    height: 76px;
+}
+
+.footer-section {
+    padding: 40px;
+}
+
+
+.footer-section h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 5px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #000;
+}
+
+.footer-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button,
+.join-button {
+    width: 150px;
+    height: 40px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.footer-line {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #07a04a;
+}
+    .footer-text {
+        position: absolute;
+        left: 65px;
+        bottom: 0;
+        color: #0a0a0a;
+    }
+    
+    /* Ikonit ja teksti "Seuraa meitä" */
+    .footer-icons {
+        position: absolute;
+        right: 65px;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .footer-icons p {
+        color: #0a0a0a;
+        margin-right: 5px;
+    }
+    
+    .footer-icons img {
+        width: 24px;
+        margin-right: 10px;
+    }
+
