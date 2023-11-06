@@ -170,7 +170,8 @@
 .content-container {
     display: flex;
     gap: 24px;
-    margin: 65px; 
+    padding: 65px; 
+    background: linear-gradient(to bottom, #202A46, #2C3C57, #334762);
 }
 
 
@@ -232,23 +233,20 @@ label{
 
 .classes-container {
     width: 661px;
+    height: 115vh;
     /* height: 1000px; */
     /* overflow-y: scroll;  */
 }
 .class-card:first-child {
-    margin-top: 110px;
-}
-
-.class-card:last-child {
-    margin-bottom: 50px;
+    margin-top: 20px;
 }
 
 .classes-list {
     display: flex;
     flex-direction: column;
-    align-items: center;    
-    justify-content: center;
-    height: 890px; 
+    align-items: center;
+    height: auto;
+    max-height: 97vh;
     overflow-y: auto;
 }
 
@@ -303,7 +301,7 @@ label{
     top: 0;
     left: 0;
     right: 0;
-    transform: translateY(-100%); /* Siirretään  yläpuolelle */
+    transform: translateY(-100%);
     padding: 5px;
     text-align: center;
     z-index: 1; 
@@ -352,18 +350,15 @@ label{
     margin-bottom: 0; /* Poistetaan väli alimmalta napilta, jotta se ei työnnä muita elementtejä pois */
 }
 
-
 .booked {
     background-color: red;
 }
-
-
 
 /* Footer tyylit */
 
 .footer {
     position: relative;
-    height: 369px;
+    height: 280px;
     background-color: #fff;
     padding: 0 65px;
     display: flex;
@@ -371,15 +366,17 @@ label{
     align-items: center;
 }
 
+
+
 .footer-logo img {
     width: 369px;
     height: 76px;
 }
 
 .footer-section {
-    flex: 1;
-    padding: 70px;
+    padding: 40px;
 }
+
 
 .footer-section h4 {
     font-size: 18px;
@@ -425,36 +422,34 @@ label{
 
 .footer-line {
     position: absolute;
-    bottom: 30px; 
+    bottom: 30px;
     left: 0;
     width: 100%;
-    height: 1px; 
-    background-color: #07a04a; 
-    
+    height: 1px;
+    background-color: #07a04a;
 }
     .footer-text {
-        position: absolute; 
-        left: 65px; 
-        bottom: 0; 
-        color: #0a0a0a; 
+        position: absolute;
+        left: 65px;
+        bottom: 0;
+        color: #0a0a0a;
     }
     
     /* Ikonit ja teksti "Seuraa meitä" */
     .footer-icons {
         position: absolute;
-        right: 65px; 
+        right: 65px;
         bottom: 0;
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
     
     .footer-icons p {
         color: #0a0a0a;
-        margin-right: 5px; 
+        margin-right: 5px;
     }
     
     .footer-icons img {
-        width: 24px; 
-        margin-right: 10px; 
+        width: 24px;
+        margin-right: 10px;
     }
-

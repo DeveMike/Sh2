@@ -95,14 +95,6 @@ addBookingListeners();
 
 
 
-// Kuuntelija kaikille 'day'-elementeille. Käytetään muuttamaan aktiivista päivää näkymässä.
-console.log("Lisätään kuuntelija 'day'-elementeille");
-document.querySelectorAll('.day').forEach(day => {
-    day.addEventListener('click', function () {
-        document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
-        day.classList.add('active');
-    });
-});
 
 // Kuuntelija jokaiselle 'info-btn'-napille, joka hallitsee tietojen näyttämistä tai piilottamista.
 console.log("Lisätään kuuntelija 'info-btn'-napeille");
@@ -114,6 +106,14 @@ document.querySelectorAll('.info-btn').forEach(btn => {
     });
 });
 
+// Kuuntelija kaikille 'day'-elementeille. Käytetään muuttamaan aktiivista päivää näkymässä.
+console.log("Lisätään kuuntelija 'day'-elementeille");
+document.querySelectorAll('.day').forEach(day => {
+    day.addEventListener('click', function () {
+        document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+        day.classList.add('active');
+    });
+});
 //Dynaaminen osio
 
 // Search-content dropdown elementit näyttävät class-cards valinnan mukaan

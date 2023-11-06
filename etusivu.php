@@ -46,13 +46,21 @@ session_start();
         </ul>
         <div class="buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
-            } ?>
+            }
+
+            ?>
         </div>
     </nav>
 
@@ -206,13 +214,21 @@ session_start();
 
         <div class="footer-buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
-            } ?>
+            }
+
+            ?>
         </div>
         <div class="footer-line"></div>
 

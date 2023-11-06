@@ -27,24 +27,24 @@ if ($stmt->fetch()) {
 try {
     $conn->beginTransaction();
 
-// Tarkista sitten, onko käyttäjällä varaus mille tahansa tunnille
-$stmt = $conn->prepare("SELECT * FROM Varaukset WHERE customer_id = ?");
-$stmt->execute([$customerId]);
+    /* // Tarkista sitten, onko käyttäjällä varaus mille tahansa tunnille
+    $stmt = $conn->prepare("SELECT * FROM Varaukset WHERE customer_id = ?");
+    $stmt->execute([$customerId]);
 
-if ($stmt->fetch()) {
-    echo json_encode(['success' => false, 'message' => 'Sinulla on jo varaus toiselle tunnille.']);
-    exit();
-}
+    if ($stmt->fetch()) {
+        echo json_encode(['success' => false, 'message' => 'Sinulla on jo varaus toiselle tunnille.']);
+        exit();
+    } */
 
-// Jos kumpikin tarkistus on läpäisty, yritä tehdä varaus
-$stmt = $conn->prepare("INSERT INTO Varaukset (customer_id, class_id, booking_datetime) VALUES (?, ?, NOW())");
-if ($stmt->execute([$customerId, $classId])) {
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Tietokantavirhe.']);
-}
+    // Jos kumpikin tarkistus on läpäisty, yritä tehdä varaus
+    $stmt = $conn->prepare("INSERT INTO Varaukset (customer_id, class_id, booking_datetime) VALUES (?, ?, NOW())");
+    if ($stmt->execute([$customerId, $classId])) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Tietokantavirhe.']);
+    }
 
-$conn->commit();
+    $conn->commit();
 } catch (Exception $e) {
     $conn->rollBack();
     echo json_encode(['success' => false, 'message' => 'Tietokantavirhe.']);

@@ -1,9 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 /* Nav barin tyyli */
@@ -586,3 +589,333 @@
         margin-right: 10px;
     }
 
+
+    /* Keskisuuret näytöt (Tablets) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .navbar {
+      padding: 0 40px;
+    }
+    .logo {
+      width: 250px;
+      height: 50px;
+    }
+    .nav-links li {
+      margin-right: 20px;
+      font-size: 15px;
+    }
+    .join-button, .login-button {
+      padding: 8px 15px;
+      font-size: 15px;
+    }
+
+    .welcome-section {
+        height: 520px;
+      }
+      .welcome-content h1 {
+        font-size: 38px;
+        margin-bottom: 25px;
+      }
+      .price-text {
+        font-size: 30px;
+        margin-bottom: 25px;
+      }
+      .welcome-join-button {
+        padding: 8px 15px;
+        font-size: 15px;
+      }
+
+      .why-us-section {
+        height: auto;
+        padding: 20px 0;
+      }
+      .why-us-section h1 {
+        font-size: 22px;
+        margin-bottom: 30px;
+      }
+      .why-us-boxes {
+        flex-direction: column;
+        padding: 0 30px;
+      }
+      .why-us-box {
+        width: 90%;
+        margin-right: 0;
+        margin-bottom: 15px;
+        padding: 15px;
+      }
+      .why-us-box p {
+        font-size: 15px;
+      }
+      .why-us-box img {
+        width: 42px;
+        height: 42px;
+      }
+      .why-us-box h2 {
+        font-size: 15px;
+      }
+
+      .mbr-container {
+        height: auto;
+        padding: 15px;
+    }
+
+    .membership-options {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .membership-option {
+        width: 90%;
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .membership-option:nth-child(2) {
+        transform: none;
+    }
+
+    .membership-option h3 {
+        font-size: 22px;
+    }
+
+    .price {
+        font-size: 26px;
+    }
+
+    .mber-join-button {
+        padding: 8px 30px;
+        font-size: 16px;
+    }
+
+    .info-section {
+        padding: 40px;
+        flex-direction: column;
+    }
+
+    .info-text {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .info-section2 {
+        height: auto;
+        padding: 30px 20px;
+    }
+
+    .info-block {
+        width: 85%;
+        padding: 0;
+        margin-top: 2rem;
+    }
+
+    .info-block p, .info-block h3 {
+        margin-left: 70px;
+    }
+    
+      .footer {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 30px;
+      }
+      .footer-logo img {
+        width: 280px;
+        height: 58px;
+      }
+      .footer-section {
+        padding: 20px;
+      }
+      .footer-section h4 {
+        font-size: 16px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 12px;
+      }
+      .login-button,
+      .join-button {
+        width: 120px;
+        height: 35px;
+        font-size: 12px;
+      }
+      .footer-text, .footer-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+      }
+      .footer-icons img {
+        width: 20px;
+        margin-right: 5px;
+      }
+    
+   
+  }
+  
+  /* Pienet näytöt (Mobiilit) */
+  @media (max-width: 600px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      height: auto;
+      padding: 20px;
+    }
+    .logo {
+      width: 200px;
+      height: 40px;
+    }
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .nav-links li {
+      margin-right: 0;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .join-button, .login-button {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .welcome-section {
+        height: 420px;
+      }
+      .welcome-content h1 {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      .price-text {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      .welcome-join-button {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+
+      .why-us-section {
+        height: auto;
+        padding: 15px 0;
+      }
+      .why-us-section h1 {
+        font-size: 20px;
+        margin-bottom: 25px;
+      }
+      .why-us-boxes {
+        flex-direction: column;
+        padding: 0 15px;
+      }
+      .why-us-box {
+        width: 95%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+      .why-us-box p {
+        font-size: 13px;
+      }
+      .why-us-box img {
+        width: 36px;
+        height: 36px;
+      }
+      .why-us-box h2 {
+        font-size: 13px;
+      }
+
+      .mbr-container {
+        height: auto;
+        padding: 10px;
+    }
+
+    .membership-options {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .membership-option {
+        width: 95%;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .membership-option:nth-child(2) {
+        transform: none;
+    }
+
+    .membership-option h3 {
+        font-size: 20px;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .mber-join-button {
+        padding: 8px 20px;
+        font-size: 15px;
+    }
+    .info-section {
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .info-text {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .info-section2 {
+        height: auto;
+        padding: 20px 10px;
+    }
+
+    .info-block {
+        width: 95%;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+
+    .info-block p, .info-block h3 {
+        margin-left: 60px;
+    }
+
+    .yellow-text2 {
+        width: 95%;
+        font-size: 18px;
+    }
+
+      .footer {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 15px;
+      }
+      .footer-logo img {
+        width: 220px;
+        height: 45px;
+      }
+      .footer-section {
+        padding: 15px;
+      }
+      .footer-section h4 {
+        font-size: 14px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 11px;
+      }
+      .login-button,
+      .join-button {
+        width: 100px;
+        height: 30px;
+        font-size: 11px;
+      }
+      .footer-text, .footer-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+      }
+      .footer-icons img {
+        width: 18px;
+        margin-right: 5px;
+      }
+   
+  }
+  

@@ -1,10 +1,45 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    // Jos käyttäjä ei ole kirjautunut sisään, ohjaa kirjautumissivulle
+    header('Location: login.php');
+    exit;
+}
+
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name'];
+$role = $_SESSION['role']; // Oletan, että rooli on tallennettu 'role'-avaimen alle
+
+require 'dbconnect.php'; // Oletan, että tässä tiedostossa luodaan tietokantayhteys
+
+// Tarkistetaan, onko käyttäjällä lukemattomia ilmoituksia
+$ilmoituksetQuery = "SELECT * FROM ilmoitukset WHERE user_id = ? AND luettu = 0";
+$ilmoituksetStmt = $conn->prepare($ilmoituksetQuery);
+$ilmoituksetStmt->execute([$user_id]);
+
+$ilmoitukset = $ilmoituksetStmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($ilmoitukset as $ilmoitus) {
+    // Näytä ilmoitus
+    echo '<div class="alert alert-info">' . htmlspecialchars($ilmoitus['viesti']) . '</div>';
+
+    // Merkitse ilmoitus luetuksi
+    $merkintaQuery = "UPDATE ilmoitukset SET luettu = 1 WHERE ilmoitus_id = ?";
+    $merkintaStmt = $conn->prepare($merkintaQuery);
+    $merkintaStmt->execute([$ilmoitus['ilmoitus_id']]);
+}
+
+if ($role === 'customer') {
+    // Näytä asiakkaalle tarkoitettu sisältö
+} elseif ($role === 'instructor') {
+    // Näytä ohjaajalle tarkoitettu sisältö
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,13 +85,20 @@ $name = $_SESSION['name'];
         </ul>
         <div class="buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
             }
+
             ?>
         </div>
     </nav>
@@ -90,11 +132,7 @@ $name = $_SESSION['name'];
             <div class="box">
                 <h2 class="title">Varaukset</h2>
                 <div class="black-box reservations-box">
-                    <a href="varaus.php" class="booking-link">Varaa tunti</a>
-                    <div class="plus-icon">+</div>
                     <div class="reservations-container">
-                        <!--                         <a href="varaus.php" class="reservations-link"></a>
- -->
                     </div>
                 </div>
             </div>
@@ -166,13 +204,20 @@ $name = $_SESSION['name'];
 
         <div class="footer-buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
             }
+
             ?>
 
         </div>

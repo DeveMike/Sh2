@@ -1,10 +1,60 @@
 <?php
 session_start();
 
-$instructor_id = $_SESSION['user_id'];
+if (!isset($_SESSION['user_id'])) {
+    // Jos käyttäjä ei ole kirjautunut sisään, ohjaa kirjautumissivulle
+    header('Location: login.php');
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name'];
+// Voit myös tarkistaa käyttäjän roolin, jos tarvitset sitä
+$role = $_SESSION['instructor'];
+
+if ($role === 'customer') {
+    // Näytä asiakkaalle tarkoitettu sisältö
+} elseif ($role === 'instructor') {
+    // Näytä ohjaajalle tarkoitettu sisältö
+}
+
+require 'dbconnect.php';
+
+// Haetaan kaikki tunnit, jotka kuuluvat kirjautuneelle ohjaajalle
+$instructor_id = $_SESSION['user_id']; // Oletetaan, että ohjaajan ID on tallennettu sessioon
+$sql = "SELECT * FROM Jumpat WHERE instructor_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$instructor_id]);
+$classes = $stmt->fetchAll(); // Tallennetaan kaikki rivit $classes-muuttujaan
+
+// Haetaan kaikki tunnit, ohjaajan nimi ja varauksien määrä
+$instructor_id = $_SESSION['user_id']; // Oletetaan, että ohjaajan ID on tallennettu sessioon
+$stmt = $conn->prepare("
+    SELECT 
+        j.*, 
+        o.name as instructor_name, 
+        COALESCE(v.reservation_count, 0) as reservation_count
+    FROM 
+        Jumpat j 
+    JOIN 
+        Ohjaajat o ON j.instructor_id = o.instructor_id
+    LEFT JOIN (
+        SELECT 
+            class_id,
+            COUNT(*) as reservation_count 
+        FROM 
+            Varaukset 
+        GROUP BY 
+            class_id
+    ) as v ON j.class_id = v.class_id
+    WHERE j.instructor_id = ?
+");
+$stmt->execute([$instructor_id]);
+$classes = $stmt->fetchAll();
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,10 +100,16 @@ $name = $_SESSION['name'];
         </ul>
         <div class="buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
             }
@@ -86,45 +142,82 @@ $name = $_SESSION['name'];
             <div class="box">
                 <h2 class="title">Varaukset</h2>
                 <div class="black-box reservations-box">
-                    <a href="varaus.php" class="booking-link">Lisää Tunti</a>
-                    <div class="plus-icon">+</div>
+                    <div class="form-container">
+                        <h2>Ohjaajan Tuntien Lisäys</h2>
+                        <!-- Tuntien lisäyslomake -->
+                        <form action="handle_class_addition.php" method="post">
+                            <div class="form-group">
+                                <label for="name">Tunnin nimi:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description">Kuvaus:</label>
+                                <textarea id="description" name="description" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="start_time">Aloitusaika:</label>
+                                <input type="datetime-local" id="start_time" name="start_time" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="end_time">Lopetusaika:</label>
+                                <input type="datetime-local" id="end_time" name="end_time" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="capacity">Kapasiteetti:</label>
+                                <input type="number" id="capacity" name="capacity" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Osoite:</label>
+                                <input type="text" id="address" name="address" required>
+                            </div>
+
+                            <input type="submit" value="Lisää tunti">
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="box">
                 <h2 class="title">Omat Tunnit</h2>
-                <div class="black-box payment-details-box scrollable">
-                    <div class="info-box">
-                        Tuote: Basicmonth 29,95 €
-                        <div>
-                            <span>Summa: 29,95 €</span>
-                            <span>Tila: <span class="payment-status">Maksettu</span></span>
+                <div class="booked-box">
+                    <?php foreach ($classes as $class) : ?>
+                        <div class="class-card">
+                            <div class="class-info">
+                                <!-- Muotoillaan päivämäärä ja aika halutulla tavalla -->
+                                <div class="date-time">
+                                    <?= date('j M', strtotime($class['start_time'])) ?> |
+                                    <?= date('H:i', strtotime($class['start_time'])) ?> - <?= date('H:i', strtotime($class['end_time'])) ?>
+                                </div>
+                                <div class="name">
+                                    <?= htmlspecialchars($class['name']) ?>
+                                    <?= htmlspecialchars($class['reservation_count']) ?>/<?= htmlspecialchars($class['capacity']) ?>
+                                </div>
+                                <div class="location">
+                                    Kuntosali: <?= htmlspecialchars($class['address']) ?>
+                                </div>
+                                <!-- Oletetaan, että haet ohjaajan nimen tietokannasta ja se on saatavilla $class['instructor_name'] -muuttujassa -->
+                                <div class="instructor">
+                                    <?= htmlspecialchars($class['instructor_name']) ?>
+                                </div>
+                                <div class="class-actions">
+                                    <button class="info-btn">Info</button>
+                                    <div class="info-section"><?= htmlspecialchars($class['description']) ?></div>
+                                    <button class="book-btn" data-class-id="<?= htmlspecialchars($class['class_id']) ?>">Peruuta</button>
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="info-box">
-                        Tuote: Basicmonth 29,95 €
-                        <div>
-                            <span>Summa: 29,95 €</span>
-                            <span>Tila: <span class="payment-status">Maksettu</span></span>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        Tuote: Basicmonth 29,95 €
-                        <div>
-                            <span>Summa: 29,95 €</span>
-                            <span>Tila: <span class="payment-status">Maksettu</span></span>
-                        </div>
-                    </div>
-                    <div class="info-box">
-                        Tuote: Basicmonth 29,95 €
-                        <div>
-                            <span>Summa: 29,95 €</span>
-                            <span>Tila: <span class="payment-status">Maksettu</span></span>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="instructor.js"></script>
 
 
     <footer class="footer">
@@ -157,13 +250,20 @@ $name = $_SESSION['name'];
 
         <div class="footer-buttons">
             <?php
-            if (isset($_SESSION['user_id'])) {
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
+                // Ohjaaja on kirjautunut sisään
+                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
+                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
+                // Asiakas on kirjautunut sisään
                 echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
+                // Kukaan ei ole kirjautunut sisään
                 echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
             }
+
             ?>
 
         </div>
