@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-require 'dbconnect.php';
+require 'includes/dbconnect.php';
 
 header('Content-Type: application/json');
 

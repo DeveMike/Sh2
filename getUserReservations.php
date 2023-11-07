@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 // Yhdistä tietokantaan
-require 'dbconnect.php';
+require 'includes/dbconnect.php';
 
 // Hae käyttäjän varaukset ja jumppatunnin tiedot
 $stmt = $conn->prepare('

@@ -56,7 +56,7 @@ session_start();
                 echo '<a href="customer.php" class="join-button">Oma tili</a>';
             } else {
                 // Kukaan ei ole kirjautunut sisään
-                echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
+                echo '<a href="login.php" class="login-button">Kirjaudu sisään</a>';
                 echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
             }
 

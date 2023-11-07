@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -11,7 +15,7 @@ $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name'];
 // Voit myös tarkistaa käyttäjän roolin, jos tarvitset sitä
-$role = $_SESSION['instructor'];
+$role = $_SESSION['role'];
 
 if ($role === 'customer') {
     // Näytä asiakkaalle tarkoitettu sisältö
@@ -19,7 +23,7 @@ if ($role === 'customer') {
     // Näytä ohjaajalle tarkoitettu sisältö
 }
 
-require 'dbconnect.php';
+require 'includes/dbconnect.php';
 
 // Haetaan kaikki tunnit, jotka kuuluvat kirjautuneelle ohjaajalle
 $instructor_id = $_SESSION['user_id']; // Oletetaan, että ohjaajan ID on tallennettu sessioon

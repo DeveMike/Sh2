@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Sisällytetään tietokantayhteyden luomisen tiedosto
-include 'dbconnect.php';
+require 'includes/dbconnect.php';
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $customerId = $_SESSION['user_id'];

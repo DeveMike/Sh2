@@ -3,29 +3,29 @@
 // ini_set('display_errors', '1');
 session_start();
 
-$host = '127.0.0.1';
-$db = 'varausjarjestelma';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+// Luo CSRF-token
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
+// Sisällytä tietokantayhteyden tiedot
+require 'includes/dbconnect.php';
 
 $message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('CSRF token validation failed');
+    }
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     try {
-        $pdo = new PDO($dsn, $user, $pass, $options);
+        // Käytä $conn-muuttujaa, joka on määritelty dbconnect.php-tiedostossa
         // Ensin tarkistetaan Asiakkaat-taulusta
-        $stmt = $pdo->prepare("SELECT * FROM Asiakkaat WHERE email = :email");
+        $stmt = $conn->prepare("SELECT * FROM Asiakkaat WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $fetchedUser = $stmt->fetch();
 
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } else {
             // Jos ei löydy Asiakkaat-taulusta, tarkistetaan Ohjaajat-taulusta
-            $stmt = $pdo->prepare("SELECT * FROM Ohjaajat WHERE email = :email");
+            $stmt = $conn->prepare("SELECT * FROM Ohjaajat WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $fetchedInstructor = $stmt->fetch();
 
@@ -53,10 +53,138 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $message = 'Väärä salasana tai käyttäjänimi.';
             }
         }
-
     } catch (PDOException $e) {
         $message = "Tietokantavirhe: " . $e->getMessage();
     }
 }
 
-include 'login.html';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <title>Log in page</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="etusivu.php">
+            <img src="assets/Asset 5.svg" alt="Logo" class="logo"></a>
+        <ul class="nav-links">
+            <li><a href="#">Toimipisteet</a></li>
+            <li class="has-dropdown">
+                <a href="#">
+                    Palvelut
+                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
+                </a>
+                <div class="submenu">
+                    <ul>
+                        <li><a href="#">Ryhmäliikunta</a></li>
+                        <li><a href="#">Personal Trainer</a></li>
+                        <li><a href="#">Vinkit ja Treenit</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="has-dropdown">
+                <a href="#">
+                    Jäsennyys
+                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
+                </a>
+                <div class="submenu">
+                    <ul>
+                        <li><a href="#">Hinnasto</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Ota yhteyttä</a></li>
+        </ul>
+        <div class="buttons">
+            <a href="login.html" class="login-button">Kirjaudu sisään</a>
+            <a href="login.html" class="join-button">Liity Jäseneksi</a>
+        </div>
+    </nav>
+
+    <main class="login-container">
+        <div class="login-box">
+            <h2>Kirjaudu Sisään</h2>
+            <div class="yellow-lines">
+                <div class="yellow-line1"></div>
+                <div class="yellow-line2"></div>
+            </div>
+            <h3>Hallinnoi aktiviteettejasi ja jäsennyttäsi</h3>
+            <h4 class="small-title">Have a great day</h4>
+            <form method="post" action="login.php">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                <div class="input-container">
+                    <input type="email" id="email" name="email" required placeholder="Sähköposti" autocomplete="username">
+                </div>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" required placeholder="Salasana" autocomplete="current-password">
+                </div>
+                <button type="submit" class="form-login-button">Kirjaudu Sisään</button>
+                <p class="forgot-password"><img src="assets/Icon/lock-alt-solid 1.svg" alt="Kuvake"> Unohditko
+                    salasanasi?</p>
+
+            </form>
+        </div>
+    </main>
+
+
+
+
+    <footer class="footer">
+        <div class="footer-logo">
+            <img src="assets/Asset 7.png" alt="Logo" width="369" height="76">
+        </div>
+
+        <div class="footer-section">
+            <h4>Meistä</h4>
+            <ul>
+                <li><a href="#">Töihin meille</a></li>
+                <li><a href="#">Historia</a></li>
+                <li><a href="#">Asiakaspalvelu</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Tuki</h4>
+            <ul>
+                <li><a href="#">Jäsenhinnasto</a></li>
+                <li><a href="#">Tietosuojaseloste</a></li>
+                <li><a href="#">Säännöt ja Ehdot</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Yhteystiedot</h4>
+            <p>Fitnessskuja 12<br>00100 Helsinki</p>
+        </div>
+
+        <div class="footer-buttons">
+            <button class="login-button">Kirjaudu sisään</button>
+            <button class="join-button">Liity sisään</button>
+        </div>
+        <div class="footer-line"></div>
+
+        <div class="footer-text">
+            © Strength & Health. 2024. Healthy AF!
+        </div>
+        <div class="footer-icons">
+            <p>Seuraa meitä:</p>
+            <img src="assets/footer_icon/instagram.svg" alt="Icon 1">
+            <img src="assets/footer_icon/twitter.svg" alt="Icon 2">
+            <img src="assets/footer_icon/github.svg" alt="Icon 3">
+            <img src="assets/footer_icon/linkedin.svg" alt="Icon 4">
+        </div>
+    </footer>
+
+
+
+
+</body>
+
+</html>

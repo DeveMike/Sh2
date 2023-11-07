@@ -1,19 +1,15 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "varausjarjestelma";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Sisällytä tietokantayhteyden tiedot
+require 'includes/dbconnect.php';
 
 
 // Haetaan jumppatuntien tiedot, ohjaajan nimi ja varausmäärä yhdessä kyselyssä
@@ -39,7 +35,7 @@ $stmt = $conn->prepare("
 
 
 $stmt->execute();
-$result = $stmt->get_result();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Haetaan kaikki uniikit kaupungit osoite-sarakkeesta
 $cityQuery = "SELECT DISTINCT SUBSTRING_INDEX(address, ' ', -1) as city FROM Jumpat";
@@ -133,7 +129,7 @@ $instructorResult = $conn->query($instructorQuery);
                 <label>Kaupunki</label>
                 <select id="citySelect">
                     <option value=""></option> <!-- Lisätty tyhjä rivi -->
-                    <?php while ($row = $cityResult->fetch_assoc()) : ?>
+                    <?php while ($row = $cityResult->fetch(PDO::FETCH_ASSOC)) : ?>
                         <option value="<?= $row['city'] ?>"><?= $row['city'] ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -142,7 +138,7 @@ $instructorResult = $conn->query($instructorQuery);
                 <label>Kuntosalin Osoite</label>
                 <select id="gymSelect">
                     <option value=""></option> <!-- Lisätty tyhjä rivi -->
-                    <?php while ($row = $addressResult->fetch_assoc()) : ?>
+                    <?php while ($row = $addressResult->fetch(PDO::FETCH_ASSOC)) : ?>
                         <option value="<?= $row['address'] ?>"><?= $row['address'] ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -152,7 +148,7 @@ $instructorResult = $conn->query($instructorQuery);
                 <label>Tunnin Nimi</label>
                 <select id="classNameSelect">
                     <option value=""></option> <!-- Lisätty tyhjä rivi -->
-                    <?php while ($row = $classNameResult->fetch_assoc()) : ?>
+                    <?php while ($row = $classNameResult->fetch(PDO::FETCH_ASSOC)) : ?>
                         <option value="<?= $row['name'] ?>"><?= $row['name'] ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -161,7 +157,7 @@ $instructorResult = $conn->query($instructorQuery);
                 <label>Ohjaajat</label>
                 <select id="instructorSelect">
                     <option value=""></option> <!-- Lisätty tyhjä rivi -->
-                    <?php while ($row = $instructorResult->fetch_assoc()) : ?>
+                    <?php while ($row = $instructorResult->fetch(PDO::FETCH_ASSOC)) : ?>
                         <option value="<?= $row['instructor_id'] ?>"><?= $row['name'] ?></option>
                     <?php endwhile; ?>
                 </select>
@@ -187,7 +183,7 @@ $instructorResult = $conn->query($instructorQuery);
             </div>
             <div class="classes-list">
                 <?php
-                if ($result->num_rows > 0) {
+                if (count($result) > 0) {
 
                     $finnishMonths = array(
                         1 => "Tammi",
@@ -205,7 +201,7 @@ $instructorResult = $conn->query($instructorQuery);
                     );
 
                     // Output each class
-                    while ($row = $result->fetch_assoc()) {
+                    foreach ($result as $row) {
 
                         // Muotoillaan päivämäärä ja aika suomenkieliseksi
                         $startDate = new DateTime($row["start_time"]);
@@ -214,10 +210,11 @@ $instructorResult = $conn->query($instructorQuery);
                         $formattedDate = $startDate->format('j') . ' ' . $finnishMonths[$startDate->format('n')] . ' | ' . $startDate->format('H:i') . ' - ' . $endDate->format('H:i');
 
                         // Tarkista, onko käyttäjällä varaus tälle tunnille
-                        $stmt = $conn->prepare("SELECT * FROM Varaukset WHERE customer_id = ? AND class_id = ?");
-                        $stmt->bind_param("ii", $user_id, $row["class_id"]);
+                        $stmt = $conn->prepare("SELECT * FROM Varaukset WHERE customer_id = :user_id AND class_id = :class_id");
+                        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+                        $stmt->bindParam(':class_id', $row["class_id"], PDO::PARAM_INT);
                         $stmt->execute();
-                        $reservation = $stmt->get_result()->fetch_assoc();
+                        $reservation = $stmt->fetch();
                         $buttonText = $reservation ? "Peruuta" : "Varaa";
                         $buttonClass = $reservation ? "booked" : "";
 

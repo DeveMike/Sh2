@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbconnect.php'; // Tuo tietokantayhteyden
+require 'includes/dbconnect.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'instructor') {
     header('Location: login.php');

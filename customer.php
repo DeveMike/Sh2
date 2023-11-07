@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -12,7 +17,7 @@ $email = $_SESSION['email'];
 $name = $_SESSION['name'];
 $role = $_SESSION['role']; // Oletan, että rooli on tallennettu 'role'-avaimen alle
 
-require 'dbconnect.php'; // Oletan, että tässä tiedostossa luodaan tietokantayhteys
+require 'includes/dbconnect.php';
 
 // Tarkistetaan, onko käyttäjällä lukemattomia ilmoituksia
 $ilmoituksetQuery = "SELECT * FROM ilmoitukset WHERE user_id = ? AND luettu = 0";
