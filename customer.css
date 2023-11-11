@@ -307,6 +307,10 @@
     color: red;
 }
 
+.title-link{
+    text-decoration: none;
+}
+
 .box {
     flex: 1;
     display: flex;

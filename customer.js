@@ -171,7 +171,7 @@ function toggleMenu() {
 
    
 }
-document.querySelector('.sub-menu').addEventListener('click', function() {
+/* document.querySelector('.sub-menu').addEventListener('click', function() {
     var allLinks = document.querySelectorAll('.nav-links a');
     var submenu = document.querySelector('.submenu');
     if (this.classList.contains('active')) {
@@ -188,7 +188,7 @@ document.querySelector('.sub-menu').addEventListener('click', function() {
             allLinks[i].style.marginBottom = '0';
         }
     }
-});
+}); */
 
 
 

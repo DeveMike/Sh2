@@ -13,6 +13,19 @@ require 'includes/dbconnect.php';
 
 $message = '';
 
+function recordAuditLog($userId, $userType, $action, $email = null)
+{
+    global $conn;
+    $customerColumn = $userType === 'customer' ? $userId : null;
+    $instructorColumn = $userType === 'instructor' ? $userId : null;
+    $stmt = $conn->prepare("INSERT INTO Audit_Log
+    (customer_id, instructor_id, action_type, ip_address, user_agent, email) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([
+        $customerColumn, $instructorColumn, $action, $_SERVER['REMOTE_ADDR'],
+        $_SERVER['HTTP_USER_AGENT'], $email
+    ]);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
@@ -33,7 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $fetchedUser['customer_id'];
             $_SESSION['email'] = $fetchedUser['email'];
             $_SESSION['name'] = $fetchedUser['name'];
-            $_SESSION['role'] = 'customer'; // Lisätty rooli
+            $_SESSION['role'] = 'customer';
+            recordAuditLog($fetchedUser['customer_id'], 'customer', 'login', $fetchedUser['email']);
             header('Location: customer.php');
             exit;
         } else {
@@ -46,10 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $fetchedInstructor['instructor_id'];
                 $_SESSION['email'] = $fetchedInstructor['email'];
                 $_SESSION['name'] = $fetchedInstructor['name'];
-                $_SESSION['role'] = 'instructor'; // Lisätty rooli
-                header('Location: instructor.php'); // Olettaen, että ohjaajilla on oma sivunsa
+                $_SESSION['role'] = 'instructor';
+                recordAuditLog($fetchedInstructor['instructor_id'], 'instructor', 'login', $fetchedInstructor['email']);
+                header('Location: instructor.php');
                 exit;
             } else {
+                // Epäonnistunut kirjautuminen
+                recordAuditLog(null, 'unknown', 'login_attempt', $email);
                 $message = 'Väärä salasana tai käyttäjänimi.';
             }
         }
@@ -57,8 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Tietokantavirhe: " . $e->getMessage();
     }
 }
-
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,42 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <nav class="navbar">
-        <a href="etusivu.php">
-            <img src="assets/Asset 5.svg" alt="Logo" class="logo"></a>
-        <ul class="nav-links">
-            <li><a href="#">Toimipisteet</a></li>
-            <li class="has-dropdown">
-                <a href="#">
-                    Palvelut
-                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
-                </a>
-                <div class="submenu">
-                    <ul>
-                        <li><a href="#">Ryhmäliikunta</a></li>
-                        <li><a href="#">Personal Trainer</a></li>
-                        <li><a href="#">Vinkit ja Treenit</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="has-dropdown">
-                <a href="#">
-                    Jäsennyys
-                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
-                </a>
-                <div class="submenu">
-                    <ul>
-                        <li><a href="#">Hinnasto</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li><a href="#">Ota yhteyttä</a></li>
-        </ul>
-        <div class="buttons">
-            <a href="login.html" class="login-button">Kirjaudu sisään</a>
-            <a href="login.html" class="join-button">Liity Jäseneksi</a>
-        </div>
-    </nav>
+    <?php require_once 'navbar.php'; ?>
 
     <main class="login-container">
         <div class="login-box">
@@ -133,58 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </main>
 
-
-
-
-    <footer class="footer">
-        <div class="footer-logo">
-            <img src="assets/Asset 7.png" alt="Logo" width="369" height="76">
-        </div>
-
-        <div class="footer-section">
-            <h4>Meistä</h4>
-            <ul>
-                <li><a href="#">Töihin meille</a></li>
-                <li><a href="#">Historia</a></li>
-                <li><a href="#">Asiakaspalvelu</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Tuki</h4>
-            <ul>
-                <li><a href="#">Jäsenhinnasto</a></li>
-                <li><a href="#">Tietosuojaseloste</a></li>
-                <li><a href="#">Säännöt ja Ehdot</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Yhteystiedot</h4>
-            <p>Fitnessskuja 12<br>00100 Helsinki</p>
-        </div>
-
-        <div class="footer-buttons">
-            <button class="login-button">Kirjaudu sisään</button>
-            <button class="join-button">Liity sisään</button>
-        </div>
-        <div class="footer-line"></div>
-
-        <div class="footer-text">
-            © Strength & Health. 2024. Healthy AF!
-        </div>
-        <div class="footer-icons">
-            <p>Seuraa meitä:</p>
-            <img src="assets/footer_icon/instagram.svg" alt="Icon 1">
-            <img src="assets/footer_icon/twitter.svg" alt="Icon 2">
-            <img src="assets/footer_icon/github.svg" alt="Icon 3">
-            <img src="assets/footer_icon/linkedin.svg" alt="Icon 4">
-        </div>
-    </footer>
-
-
-
-
+    <?php require_once 'footer.php'; ?>
 </body>
 
 </html>

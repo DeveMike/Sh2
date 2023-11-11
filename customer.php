@@ -1,13 +1,15 @@
 <?php
 
-ini_set('display_errors', 1);
+/* ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL); */
 
 session_start();
 
+require 'includes/dbconnect.php'; // Siirrä tämä ylös, jotta tietokantayhteys on olemassa
+
+// Tarkista, onko käyttäjä kirjautunut sisään
 if (!isset($_SESSION['user_id'])) {
-    // Jos käyttäjä ei ole kirjautunut sisään, ohjaa kirjautumissivulle
     header('Location: login.php');
     exit;
 }
@@ -17,7 +19,79 @@ $email = $_SESSION['email'];
 $name = $_SESSION['name'];
 $role = $_SESSION['role']; // Oletan, että rooli on tallennettu 'role'-avaimen alle
 
-require 'includes/dbconnect.php';
+require_once 'includes/encryption.php';
+
+/* function encryptCustomerData($conn)
+{
+    // Haetaan kaikki asiakastiedot
+    $query = "SELECT customer_id, name, email, phone, address FROM Asiakkaat";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    // Katkaistaan IV 16 merkkiin
+    $iv = substr(ENCRYPTION_IV, 0, 16);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Salataan tiedot käyttäen katkaistua IV:tä
+        $encryptedName = openssl_encrypt($row['name'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedEmail = openssl_encrypt($row['email'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedPhone = openssl_encrypt($row['phone'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedAddress = openssl_encrypt($row['address'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+
+        // Päivitetään salatut tiedot tietokantaan
+        $updateQuery = "UPDATE Asiakkaat SET 
+                        name = ?, 
+                        email = ?, 
+                        phone = ?, 
+                        address = ? 
+                        WHERE customer_id = ?";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([$encryptedName, $encryptedEmail, $encryptedPhone, $encryptedAddress, $row['customer_id']]);
+    }
+
+    echo "All customer data encrypted successfully.";
+}
+
+// Kutsu funktiota
+encryptCustomerData($conn); */
+
+
+/* function decryptAndSaveCustomerData($conn)
+{
+    // Haetaan kaikki salatut asiakastiedot
+    $query = "SELECT customer_id, name, email, phone, address FROM Asiakkaat";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Puretaan salaus
+        $decryptedName = openssl_decrypt($row['name'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedEmail = openssl_decrypt($row['email'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedPhone = openssl_decrypt($row['phone'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedAddress = openssl_decrypt($row['address'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+
+        // Tarkista, onnistuiko salauksen purkaminen
+        if ($decryptedName === false || $decryptedEmail === false || $decryptedPhone === false || $decryptedAddress === false) {
+            die("Error decrypting data");
+        }
+
+        // Päivitetään selväkieliset tiedot tietokantaan
+        $updateQuery = "UPDATE Asiakkaat SET 
+                        name = ?, 
+                        email = ?, 
+                        phone = ?, 
+                        address = ? 
+                        WHERE customer_id = ?";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([$decryptedName, $decryptedEmail, $decryptedPhone, $decryptedAddress, $row['customer_id']]);
+    }
+
+    echo "All customer data decrypted and updated successfully.";
+}
+
+// Kutsu funktiota
+decryptAndSaveCustomerData($conn); */
+
 
 // Tarkistetaan, onko käyttäjällä lukemattomia ilmoituksia
 $ilmoituksetQuery = "SELECT * FROM ilmoitukset WHERE user_id = ? AND luettu = 0";
@@ -27,10 +101,7 @@ $ilmoituksetStmt->execute([$user_id]);
 $ilmoitukset = $ilmoituksetStmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($ilmoitukset as $ilmoitus) {
-    // Näytä ilmoitus
     echo '<div class="alert alert-info">' . htmlspecialchars($ilmoitus['viesti']) . '</div>';
-
-    // Merkitse ilmoitus luetuksi
     $merkintaQuery = "UPDATE ilmoitukset SET luettu = 1 WHERE ilmoitus_id = ?";
     $merkintaStmt = $conn->prepare($merkintaQuery);
     $merkintaStmt->execute([$ilmoitus['ilmoitus_id']]);
@@ -46,6 +117,7 @@ if ($role === 'customer') {
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,56 +129,8 @@ if ($role === 'customer') {
 </head>
 
 <body>
-    <nav class="navbar">
-        <a href="etusivu.php">
-            <img src="assets/Asset 5.svg" alt="Logo" class="logo"></a>
-        <ul class="nav-links">
-            <li><a href="#">Toimipisteet</a></li>
-            <li class="has-dropdown">
-                <a href="#">
-                    Palvelut
-                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
-                </a>
-                <div class="submenu">
-                    <ul>
-                        <li><a href="#">Ryhmäliikunta</a></li>
-                        <li><a href="#">Personal Trainer</a></li>
-                        <li><a href="#">Vinkit ja Treenit</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="has-dropdown">
-                <a href="#">
-                    Jäsennyys
-                    <img src="assets/Infolaunch.svg" alt="Icon" class="icon">
-                </a>
-                <div class="submenu">
-                    <ul>
-                        <li><a href="#">Hinnasto</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li><a href="#">Ota yhteyttä</a></li>
-        </ul>
-        <div class="buttons">
-            <?php
-            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
-                // Ohjaaja on kirjautunut sisään
-                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
-            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
-                // Asiakas on kirjautunut sisään
-                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-                echo '<a href="customer.php" class="join-button">Oma tili</a>';
-            } else {
-                // Kukaan ei ole kirjautunut sisään
-                echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
-                echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
-            }
+    <?php include_once 'navbar.php' ?>
 
-            ?>
-        </div>
-    </nav>
 
     <section class="user-profile">
         <div class="info-box1">Name:
@@ -135,7 +159,9 @@ if ($role === 'customer') {
     <div class="white-section">
         <div class="content-container">
             <div class="box">
-                <h2 class="title">Varaukset</h2>
+                <a href="varaus.php" class="title-link">
+                    <h2 class="title">Varaukset</h2>
+                </a>
                 <div class="black-box reservations-box">
                     <div class="reservations-container">
                     </div>
@@ -178,67 +204,8 @@ if ($role === 'customer') {
     </div>
     <script src="customer.js"></script>
 
+    <?php include_once 'footer.php' ?>
 
-    <footer class="footer">
-        <div class="footer-logo">
-            <img src="assets/Asset 7.png" alt="Logo" width="369" height="76">
-        </div>
-
-        <div class="footer-section">
-            <h4>Meistä</h4>
-            <ul>
-                <li><a href="#">Töihin meille</a></li>
-                <li><a href="#">Historia</a></li>
-                <li><a href="#">Asiakaspalvelu</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Tuki</h4>
-            <ul>
-                <li><a href="#">Jäsenhinnasto</a></li>
-                <li><a href="#">Tietosuojaseloste</a></li>
-                <li><a href="#">Säännöt ja Ehdot</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Yhteystiedot</h4>
-            <p>Fitnessskuja 12<br>00100 Helsinki</p>
-        </div>
-
-        <div class="footer-buttons">
-            <?php
-            if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
-                // Ohjaaja on kirjautunut sisään
-                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-                echo '<a href="instructor.php" class="join-button">Oma tili</a>';
-            } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
-                // Asiakas on kirjautunut sisään
-                echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-                echo '<a href="customer.php" class="join-button">Oma tili</a>';
-            } else {
-                // Kukaan ei ole kirjautunut sisään
-                echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
-                echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
-            }
-
-            ?>
-
-        </div>
-        <div class="footer-line"></div>
-
-        <div class="footer-text">
-            © Strength & Health. 2024. Healthy AF!
-        </div>
-        <div class="footer-icons">
-            <p>Seuraa meitä:</p>
-            <img src="assets/footer_icon/instagram.svg" alt="Icon 1">
-            <img src="assets/footer_icon/twitter.svg" alt="Icon 2">
-            <img src="assets/footer_icon/github.svg" alt="Icon 3">
-            <img src="assets/footer_icon/linkedin.svg" alt="Icon 4">
-        </div>
-    </footer>
 </body>
 
 </html>
