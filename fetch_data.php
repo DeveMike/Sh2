@@ -39,7 +39,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->execute([':city' => $city]);
         $classNames = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
-        $stmt = $conn->prepare("SELECT DISTINCT j.instructor_id, o.name FROM Jumpat j JOIN Ohjaajat o ON j.instructor_id = o.instructor_id WHERE SUBSTRING_INDEX(j.address, ' ', -1) = :city");
+        $stmt = $conn->prepare("SELECT DISTINCT j.instructor_id, o.name
+        FROM Jumpat j JOIN Ohjaajat o ON j.instructor_id = o.instructor_id 
+        WHERE SUBSTRING_INDEX(j.address, ' ', -1) = :city");
         $stmt->execute([':city' => $city]);
         $instructors = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -71,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         $where = implode(' AND ', $whereClauses);
-        $sql = "SELECT j.*, 
+        $sql = "SELECT j.*,
                    COUNT(v.class_id) as reservation_count, 
                    SUM(v.customer_id = :user_id) as user_has_reservation
             FROM Jumpat j

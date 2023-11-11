@@ -107,16 +107,7 @@ foreach ($ilmoitukset as $ilmoitus) {
     $merkintaStmt->execute([$ilmoitus['ilmoitus_id']]);
 }
 
-if ($role === 'customer') {
-    // Näytä asiakkaalle tarkoitettu sisältö
-} elseif ($role === 'instructor') {
-    // Näytä ohjaajalle tarkoitettu sisältö
-}
-
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">

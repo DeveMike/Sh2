@@ -53,7 +53,10 @@ try {
     } else {
         // Jos ei rivejä vaikuttunut, peruuta transaktio ja anna virheilmoitus
         $conn->rollBack();
-        echo json_encode(['success' => false, 'message' => 'Varausta tai tuntia ei löydy, tai sinulla ei ole oikeuksia sen poistamiseen.']);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Varausta tai tuntia ei löydy, tai sinulla ei ole oikeuksia sen poistamiseen.'
+        ]);
     }
 } catch (Exception $e) {
     $conn->rollBack();
