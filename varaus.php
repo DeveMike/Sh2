@@ -29,7 +29,7 @@ $stmt = $conn->prepare("
             class_id,
             COUNT(*) as reservation_count
         FROM
-            Varaukset
+            varaukset
         GROUP BY
             class_id
     ) as v ON j.class_id = v.class_id
@@ -99,7 +99,7 @@ $instructorResult = $conn->query($instructorQuery);
                         );
 
                         $stmt = $conn->prepare("SELECT * FROM 
-                        Varaukset WHERE customer_id = :user_id AND class_id = :class_id");
+                        varaukset WHERE customer_id = :user_id AND class_id = :class_id");
                         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                         $stmt->bindParam(':class_id', $row["class_id"], PDO::PARAM_INT);
                         $stmt->execute();

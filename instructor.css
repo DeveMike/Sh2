@@ -67,10 +67,10 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #FFF500;
+    background-color: #0a0a0a;
     opacity: 0.9;
-    border-radius: 0 0 10px 10px;
-    padding: 10px 0;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
     min-width: 100%;
     z-index: 1;
     border-top: 2px solid #07a04a;
@@ -85,9 +85,9 @@
 
 
 .submenu ul li a {
-    display: inline-block; /* Lisätty näyttötila, display: inline-block; CSS-sääntö tekee elementeistä "loose" -elementtejä, jotka asettuvat vaakasuoraan vierekkäin samalla rivillä ja voivat ottaa käyttöön tekstinsisäisen tason ominaisuuksia, kuten text-align: center. */
+    display: inline-block; 
     text-align: center; /* Lisätty vaakasuuntainen keskittäminen VAIVALLA.. */
-    color: #0a0a0a;
+    color: #ffffff;
     font-family: 'Montserrat', sans-serif;
 }
 

@@ -13,6 +13,28 @@ require 'includes/dbconnect.php';
 
 $message = '';
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Tarkistetaan CSRF-tokenin oikeellisuus
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $message = 'CSRF token validation failed.';
+    } else {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        // Tähän lisätään tietokantakyselyt ja salasanan tarkistus...
+
+        // Jos käyttäjätunnusta ei löydy
+        if (!$fetchedUser && !$fetchedInstructor) {
+            $message = 'Käyttäjää ei ole olemassa.';
+        }
+        // Jos salasana on väärä
+        else if ($fetchedUser && !password_verify($password, $fetchedUser['password'])) {
+            $message = 'Väärä salasana tai sähköposti.';
+        }
+    }
+}
+
 function recordAuditLog($userId, $userType, $action, $email = null)
 {
     global $conn;
@@ -76,8 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,6 +110,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <?php require_once 'navbar.php'; ?>
+
+    <?php if ($message) : ?>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($message); ?>
+        </div>
+    <?php endif; ?>
 
     <main class="login-container">
         <div class="login-box">
@@ -115,6 +141,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
         </div>
     </main>
+
+    <script>
+        window.setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.display = 'none';
+            });
+        }, 5000); // Viestit katoavat 5 sekunnin kuluttua
+    </script>
 
     <?php require_once 'footer.php'; ?>
 </body>

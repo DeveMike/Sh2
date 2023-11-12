@@ -6,7 +6,7 @@ error_reporting(E_ALL); */
 
 session_start();
 
-require 'includes/dbconnect.php'; // Siirrä tämä ylös, jotta tietokantayhteys on olemassa
+require 'includes/dbconnect.php';
 
 // Tarkista, onko käyttäjä kirjautunut sisään
 if (!isset($_SESSION['user_id'])) {
@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name'];
-$role = $_SESSION['role']; // Oletan, että rooli on tallennettu 'role'-avaimen alle
+$role = $_SESSION['role'];
 
 require_once 'includes/encryption.php';
 
@@ -132,7 +132,7 @@ foreach ($ilmoitukset as $ilmoitus) {
             <?php echo $email; ?>
         </div>
         <div class="info-box4">Status: Yellow</div>
-        <a href="/muokkaa-profiilia" class="edit-profile-link">Muokkaa profiilia</a>
+        <a href="update_profile-deta.php" class="edit-profile-link">Muokkaa profiilia</a>
     </section>
 
     <div class="membership-details">

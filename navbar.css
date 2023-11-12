@@ -1,0 +1,159 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Nav barin tyyli */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0a0a0a;
+    height: 123px;
+    padding: 0 69px;
+    color: #ffffff;
+    border-bottom: #07a04a solid 1px;
+}
+
+.logo {
+    width: 296px;
+    height: 57px;
+}
+
+.nav-links {
+    margin-top: 12px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.nav-links li {
+    margin-right: 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    letter-spacing: 0;
+    position: relative;
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.icon {
+    margin-left: 5px;
+    transition: transform 0.3s;
+}
+
+/* Lisätty kääntyvä ikoni */
+.has-dropdown:hover .icon {
+    transform: rotate(180deg);
+}
+
+/* Tyyli alamenuille */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0a0a0a;
+    opacity: 0.9;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+    min-width: 100%;
+    z-index: 1;
+    border-top: 2px solid #07a04a;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.submenu ul li a {
+    border-bottom: 1px solid #DF2835; 
+    padding-bottom: 5px; 
+}
+
+
+.submenu ul li a {
+    display: inline-block; 
+    text-align: center; /* Lisätty vaakasuuntainen keskittäminen VAIVALLA.. */
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.submenu ul li a.submenu-link {
+    text-align: center;
+}
+
+
+.has-dropdown ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-left: 0; 
+}
+
+.has-dropdown li {
+    margin: 0;
+    padding: 5px 5px; 
+    text-align: center;
+    font-size: 15px;
+}
+
+.has-dropdown:hover .submenu {
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.join-button {
+    text-decoration: none;
+    background-color: #df2835;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+    
+}
+
+.login-button {
+    text-decoration: none;
+    background-color: #068d40;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+
+.login-button:hover {
+    background-color: #d11622;
+}
+
+.join-button:hover {
+    background-color: #068d40;
+}

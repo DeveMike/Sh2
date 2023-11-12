@@ -22,17 +22,17 @@ try {
     $conn->beginTransaction();
 
     // Hae ensin kaikki käyttäjät, jotka ovat varanneet tunnin
-    $users = $conn->prepare("SELECT customer_id FROM Varaukset WHERE class_id = ?");
+    $users = $conn->prepare("SELECT customer_id FROM varaukset WHERE class_id = ?");
     $users->execute([$classId]);
     $usersToNotify = $users->fetchAll(PDO::FETCH_ASSOC);
 
     if ($userRole === 'customer') {
         // Yritä peruuttaa käyttäjän varaus kyseiselle tunnille
-        $stmt = $conn->prepare("DELETE FROM Varaukset WHERE customer_id = ? AND class_id = ?");
+        $stmt = $conn->prepare("DELETE FROM varaukset WHERE customer_id = ? AND class_id = ?");
         $stmt->execute([$userId, $classId]);
     } elseif ($userRole === 'instructor') {
         // Poista ensin kaikki tunnin varaukset
-        $stmt = $conn->prepare("DELETE FROM Varaukset WHERE class_id = ?");
+        $stmt = $conn->prepare("DELETE FROM varaukset WHERE class_id = ?");
         $stmt->execute([$classId]);
 
         // Luo ilmoitukset kaikille käyttäjille, jotka olivat varanneet tunnin

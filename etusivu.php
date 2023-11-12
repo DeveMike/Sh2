@@ -20,7 +20,7 @@ session_start();
         <div class="welcome-content">
             <h1>Vahvista itseäsi ja terveyttäsi meidän kanssa!</h1>
             <p class="price-text">VAIN 29,90 € / KK</p>
-            <button class="welcome-join-button">Liity jäseneksi</button>
+            <a href="join.php" class="welcome-join-button">Liity jäseneksi</a>
         </div>
     </section>
 
@@ -60,21 +60,21 @@ session_start();
             <div class="membership-option">
                 <h3>Perus Jäsenyys</h3>
                 <p class="price">29.90€</p>
-                <button class="mber-join-button">Liity</button>
+                <a href="join.php" class="mber-join-button">Liity</a>
                 <p class="note">+ Aloitusmaksu 19.90€</p>
             </div>
 
             <div class="membership-option">
                 <h3>Eläkeläinen</h3>
                 <p class="price">24.90€</p>
-                <button class="mber-join-button">Liity</button>
+                <a href="join.php" class="mber-join-button">Liity</a>
                 <p class="note">+ Aloitusmaksu 19.90€</p>
             </div>
 
             <div class="membership-option">
                 <h3>Opiskelija</h3>
                 <p class="price">24.90€</p>
-                <button class="mber-join-button">Liity</button>
+                <a href="join.php" class="mber-join-button">Liity</a>
                 <p class="note">+ Aloitusmaksu 19.90€</p>
             </div>
         </div>

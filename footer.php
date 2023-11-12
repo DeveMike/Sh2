@@ -39,7 +39,7 @@
         } else {
             // Kukaan ei ole kirjautunut sisään
             echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
-            echo '<a href="register.html" class="join-button">Liity Jäseneksi</a>';
+            echo '<a href="join.php" class="join-button">Liity Jäseneksi</a>';
         }
 
         ?>

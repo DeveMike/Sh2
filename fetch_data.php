@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                    COUNT(v.class_id) as reservation_count, 
                    SUM(v.customer_id = :user_id) as user_has_reservation
             FROM Jumpat j
-            LEFT JOIN Varaukset v ON j.class_id = v.class_id
+            LEFT JOIN varaukset v ON j.class_id = v.class_id
             WHERE $where
             GROUP BY j.class_id";
 
@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                   SUM(v.customer_id = :user_id) as user_has_reservation
               FROM Jumpat j
               LEFT JOIN Ohjaajat o ON j.instructor_id = o.instructor_id
-              LEFT JOIN Varaukset v ON j.class_id = v.class_id
+              LEFT JOIN varaukset v ON j.class_id = v.class_id
               WHERE DATE(j.start_time) = :selectedDay
               $cityCondition
               GROUP BY j.class_id";

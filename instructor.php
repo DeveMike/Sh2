@@ -5,6 +5,9 @@ error_reporting(E_ALL);
 
 session_start();
 
+require 'includes/dbconnect.php';
+
+
 if (!isset($_SESSION['user_id'])) {
     // Jos käyttäjä ei ole kirjautunut sisään, ohjaa kirjautumissivulle
     header('Location: login.php');
@@ -14,10 +17,80 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $name = $_SESSION['name'];
-// tarkistaa käyttäjän roolin
 $role = $_SESSION['role'];
 
-require 'includes/dbconnect.php';
+require_once 'includes/encryption.php';
+
+/* function encryptCustomerData($conn)
+{
+    // Haetaan kaikki asiakastiedot
+    $query = "SELECT customer_id, name, email, phone, address FROM Asiakkaat";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    // Katkaistaan IV 16 merkkiin
+    $iv = substr(ENCRYPTION_IV, 0, 16);
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Salataan tiedot käyttäen katkaistua IV:tä
+        $encryptedName = openssl_encrypt($row['name'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedEmail = openssl_encrypt($row['email'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedPhone = openssl_encrypt($row['phone'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+        $encryptedAddress = openssl_encrypt($row['address'], 'AES-256-CBC', ENCRYPTION_KEY, 0, $iv);
+
+        // Päivitetään salatut tiedot tietokantaan
+        $updateQuery = "UPDATE Asiakkaat SET 
+                        name = ?, 
+                        email = ?, 
+                        phone = ?, 
+                        address = ? 
+                        WHERE customer_id = ?";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([$encryptedName, $encryptedEmail, $encryptedPhone, $encryptedAddress, $row['customer_id']]);
+    }
+
+    echo "All customer data encrypted successfully.";
+}
+
+// Kutsu funktiota
+encryptCustomerData($conn); */
+
+
+/* function decryptAndSaveCustomerData($conn)
+{
+    // Haetaan kaikki salatut asiakastiedot
+    $query = "SELECT customer_id, name, email, phone, address FROM Asiakkaat";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Puretaan salaus
+        $decryptedName = openssl_decrypt($row['name'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedEmail = openssl_decrypt($row['email'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedPhone = openssl_decrypt($row['phone'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+        $decryptedAddress = openssl_decrypt($row['address'], 'AES-256-CBC', ENCRYPTION_KEY, 0, ENCRYPTION_IV);
+
+        // Tarkista, onnistuiko salauksen purkaminen
+        if ($decryptedName === false || $decryptedEmail === false || $decryptedPhone === false || $decryptedAddress === false) {
+            die("Error decrypting data");
+        }
+
+        // Päivitetään selväkieliset tiedot tietokantaan
+        $updateQuery = "UPDATE Asiakkaat SET 
+                        name = ?, 
+                        email = ?, 
+                        phone = ?, 
+                        address = ? 
+                        WHERE customer_id = ?";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([$decryptedName, $decryptedEmail, $decryptedPhone, $decryptedAddress, $row['customer_id']]);
+    }
+
+    echo "All customer data decrypted and updated successfully.";
+}
+
+// Kutsu funktiota
+decryptAndSaveCustomerData($conn); */
 
 // Haetaan kaikki tunnit, jotka kuuluvat kirjautuneelle ohjaajalle
 $instructor_id = $_SESSION['user_id'];
@@ -42,7 +115,7 @@ $stmt = $conn->prepare("
             class_id,
             COUNT(*) as reservation_count
         FROM
-            Varaukset
+            varaukset
         GROUP BY
             class_id
     ) as v ON j.class_id = v.class_id

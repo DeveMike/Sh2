@@ -1,11 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 /* Nav barin tyyli */
@@ -21,15 +18,15 @@
 }
 
 .logo {
-    width: 296px; 
-    height: 57px; 
+    width: 296px;
+    height: 57px;
 }
 
 .nav-links {
     margin-top: 12px;
     list-style: none;
     display: flex;
-    align-items: center; 
+    align-items: center;
     padding: 10px 0;
 }
 
@@ -67,10 +64,10 @@
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #FFF500;
+    background-color: #0a0a0a;
     opacity: 0.9;
-    border-radius: 0 0 10px 10px;
-    padding: 10px 0;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
     min-width: 100%;
     z-index: 1;
     border-top: 2px solid #07a04a;
@@ -79,15 +76,15 @@
 }
 
 .submenu ul li a {
-    border-bottom: 1px solid #DF2835;
+    border-bottom: 1px solid #DF2835; 
     padding-bottom: 5px; 
 }
 
 
 .submenu ul li a {
-    display: inline-block;
+    display: inline-block; 
     text-align: center; /* Lisätty vaakasuuntainen keskittäminen VAIVALLA.. */
-    color: #0a0a0a;
+    color: #ffffff;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -101,7 +98,7 @@
     list-style: none;
     padding: 0;
     text-align: left;
-    margin-left: 0; 
+    margin-left: 0;
 
 }
 
@@ -163,6 +160,13 @@
     background-color: #068d40;
 }
 
+.form-container{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #202A46, #2C3C57, #334762);
+    color: #ffffff;
+    padding: 20px;
+    margin: 0;
+}
 
 .alert {
     padding: 15px;
@@ -179,6 +183,12 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
 .alert-danger {
     color: #a94442;
     background-color: #f2dede;
@@ -186,146 +196,80 @@
 }
 
 
-
-/* Kirjautumisikkunan tyyli */
-.login-container {
-    background: linear-gradient(to bottom, #202A46, #2C3C57, #334762);
-    height: 1000px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+form {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-
-
-
-.login-box {
-    background-color: #0a0a0a;
-    width: 754px;
-    height: 676px;
-    border-radius: 20px;
-    text-align: center;
+fieldset {
+    border: 1px solid #ddd;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
-body .error {
-    color: red !important;
-    background-color: #ffe6e6 !important;
+legend {
+    padding: 0 10px;
+    font-weight: bold;
 }
 
-
-
-.login-box h2 {
-    font-family: "Nunito-ExtraBold", Helvetica;
-    font-weight: 800;
-    color: white;
-    font-size: 48px;
-    margin-top: 0;
+input[static] {
+    color: rgb(0, 0, 0);
+    opacity: 1; /* Varmista, että placeholder-teksti ei ole haalea */
 }
 
-.yellow-lines {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-right: 155px;
-}
-
-.yellow-line1 {
-    width: 200px;
-    height: 3px;
-    background-color: yellow;
-    border: none;
-    margin: 10px 0;
-}
-
-.yellow-line2{
-    width: 170px;
-    height: 3px;
-    background-color: yellow;
-    border: none;
-    margin: 10px 0;
-    margin-bottom: 20px;
-}
-
-.login-box h3 {
-    font-family: "Poppins-SemiBold", Helvetica;
-    font-weight: 600;
-    font-size: 24px;
-    color: white;
-}
-
-.login-box h4 {
-    font-size: 15px;
-    margin: 20px 0;
-    color: yellow;
-}
-
-.small-title {
-    font-size: 16px;
-    margin-bottom: 40px;
+fieldset[disabled] input::placeholder {
+    color: red;
+    opacity: 1;
 }
 
 
-.input-container {
-    position: relative;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
 
+input[type="text"],
 input[type="email"],
+input[type="tel"],
 input[type="password"] {
-    width: 400px;
-    height: 60px;
+    width: 80%;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
 }
 
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
-    color: #000000; /* Placeholder-tekstin väri */
+input[readonly] {
+    background-color: #e9e9e9;
 }
-.form-login-button {
-    background-color: #ff0606;
-    color: white;
-    border: none;
-    border-radius: 20px;
+
+
+fieldset div {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
     padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s ease-out;
-}
-
-.form-login-button:hover{
-    background-color: #068d40;
-}
-
-.forgot-password {
-    font-size: 14px;
-    margin-top: 20px;
-    color: #ffffff;
+    border: none;
     cursor: pointer;
 }
 
+button[type="submit"].tallenna {
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    margin: auto;
+}
 
-/* .icon {
-    }*/
+button[name="muutaSalasana"] {
+    background-color: #f44336;
+    color: white;
+}
 
-
-/* Footer-style */
+/* Footer tyylit */
 
 .footer {
     position: relative;
-    height: 369px;
+    height: 280px;
     background-color: #fff;
     padding: 0 65px;
     display: flex;
@@ -333,15 +277,17 @@ input[type="password"]::placeholder {
     align-items: center;
 }
 
+
+
 .footer-logo img {
     width: 369px;
     height: 76px;
 }
 
 .footer-section {
-    flex: 1;
-    padding: 70px;
+    padding: 40px;
 }
+
 
 .footer-section h4 {
     font-size: 18px;
@@ -387,36 +333,41 @@ input[type="password"]::placeholder {
 
 .footer-line {
     position: absolute;
-    bottom: 30px; 
+    bottom: 30px;
     left: 0;
     width: 100%;
-    height: 1px; 
-    background-color: #07a04a; 
-    
+    height: 1px;
+    background-color: #07a04a;
 }
     .footer-text {
-        position: absolute; 
-        left: 65px; 
-        bottom: 0; 
-        color: #0a0a0a; 
+        position: absolute;
+        left: 65px;
+        bottom: 0;
+        color: #0a0a0a;
     }
     
     /* Ikonit ja teksti "Seuraa meitä" */
     .footer-icons {
         position: absolute;
-        right: 65px; 
+        right: 65px;
         bottom: 0;
         display: flex;
-        align-items: center; 
+        align-items: center;
     }
     
     .footer-icons p {
         color: #0a0a0a;
-        margin-right: 5px; 
+        margin-right: 5px;
     }
     
     .footer-icons img {
-        width: 24px; 
-        margin-right: 10px; 
+        width: 24px;
+        margin-right: 10px;
     }
 
+/* Responsive design */
+@media (max-width: 600px) {
+    fieldset div {
+        flex-direction: column;
+    }
+}
