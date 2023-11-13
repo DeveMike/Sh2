@@ -15,10 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $end_time = $_POST['end_time'];
     $capacity = $_POST['capacity'];
     $address = $_POST['address'];
-    $instructor_id = $_SESSION['user_id']; // Oletetaan, että olet tallentanut ohjaajan ID:n tähän, kun hän kirjautui sisään
+    $instructor_id = $_SESSION['user_id'];
 
     // Lisää tunti tietokantaan
-    $sql = "INSERT INTO Jumpat (name, instructor_id, description, start_time, end_time, capacity, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO Jumpat
+    (name, instructor_id, description, start_time, end_time, capacity, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql); // Käytä $conn muuttujaa
 
     if ($stmt->execute([$name, $instructor_id, $description, $start_time, $end_time, $capacity, $address])) {

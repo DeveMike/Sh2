@@ -100,7 +100,7 @@ $stmt->execute([$instructor_id]);
 $classes = $stmt->fetchAll(); // Tallennetaan kaikki rivit $classes-muuttujaan
 
 // Haetaan kaikki tunnit, ohjaajan nimi ja varauksien määrä
-$instructor_id = $_SESSION['user_id']; // Oletetaan, että ohjaajan ID on tallennettu sessioon
+$instructor_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("
     SELECT
         j.*,
@@ -223,8 +223,6 @@ $classes = $stmt->fetchAll();
                                 <div class="location">
                                     Kuntosali: <?= htmlspecialchars($class['address']) ?>
                                 </div>
-                                <!-- Oletetaan, että haet ohjaajan nimen tietokannasta
-                                ja se on saatavilla $class['instructor_name'] -muuttujassa -->
                                 <div class="instructor">
                                     <?= htmlspecialchars($class['instructor_name']) ?>
                                 </div>

@@ -3,8 +3,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Aloittaa uuden tai jatkaa olemassa olevaa PHP-sessiota
+// 'session_start()' on välttämätön kutsua ennen kuin pääsee käsiksi $_SESSION-muuttujiin.
+// Tämä funktio varmistaa, että käyttäjän sessiotiedot ovat saatavilla tällä sivulla.
 session_start();
+
+// Haetaan käyttäjän tunniste (user_id) sessiosta
+// Tarkistetaan ensin, onko 'user_id' asetettu $_SESSION-muuttujaan.
+// Jos 'user_id' on olemassa sessiossa, käytetään sitä arvoa.
+// Muussa tapauksessa 'user_id' asetetaan arvoksi null, mikä tarkoittaa, että käyttäjä ei ole kirjautunut sisään tai tunnistetta ei ole asetettu.
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
 
 
 // Sisällytä tietokantayhteyden tiedot
@@ -15,6 +24,19 @@ include_once 'get_weekdays.php';
 
 
 // Haetaan jumppatuntien tiedot, ohjaajan nimi ja varausmäärä yhdessä kyselyssä
+// Valitaan kaikki sarakkeet 'Jumpat'-taulusta
+// Liitetään ohjaajan nimi 'Ohjaajat'-taulusta
+// Lasketaan varauksien määrä ja käytetään 0, jos ei varauksia
+// Jumpat taulu, josta haetaan tietoja
+// Liitetään 'Ohjaajat'-taulu 'Jumpat'-tauluun ohjaajan ID:n perusteella
+// Valitaan luokan ID
+/*  Tässä osiossa luodaan alikysely (subquery) laskemaan kunkin tunnin varausmäärä.
+'COUNT(*)' laskee jokaisen varauksen määrän tietylle tunnille 'varaukset' taulussa.
+ Tämä laskettu määrä nimetään 'reservation_count', jota käytetään tuloksissa tunnin varausmäärän esittämiseen.
+ Huomaa, että 'reservation_count' ei ole suoraan tietokannassa oleva sarake, vaan se luodaan tässä kyselyssä.*/
+// Taulu, josta varaukset lasketaan
+// Ryhmitellään tulokset luokan ID:n perusteella
+// Liitetään varausmäärätiedot 'Jumpat'-tauluun luokan ID:n perusteella
 $stmt = $conn->prepare("
     SELECT
         j.*,
@@ -35,24 +57,33 @@ $stmt = $conn->prepare("
     ) as v ON j.class_id = v.class_id
 ");
 
-$stmt->execute();
-$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt->execute(); // Suoritetaan SQL-kysely
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Haetaan kaikki tulokset assosiatiivisena taulukkona
+
+//Räätälöidään kyselyt jotka näyttää "script" kaikki kaupungin olevat tiedot
 
 // Haetaan kaikki uniikit kaupungit osoite-sarakkeesta
+// Tässä käytetään SUBSTRING_INDEX-funktiota erottelemaan kaupungin nimi osoitteen lopusta.
+// 'address' sarakkeesta otetaan viimeinen sana, joka asetetaan kaupungin nimeksi.
 $cityQuery = "SELECT DISTINCT SUBSTRING_INDEX(address, ' ', -1) as city FROM Jumpat";
 $cityResult = $conn->query($cityQuery);
 
 // Haetaan kaikki uniikit osoitteet
+// Tämä kysely valitsee kaikki tietyt osoitteet 'Jumpat' taulusta, joka vähentää toistuvia tietoja.
 $addressQuery = "SELECT DISTINCT address FROM Jumpat";
 $addressResult = $conn->query($addressQuery);
 
 // Haetaan kaikki uniikit tunnin nimet
+// Tässä kyselyssä valitaan tietyt 'name' sarakkeen arvot 'Jumpat' taulusta.
 $classNameQuery = "SELECT DISTINCT name FROM Jumpat";
 $classNameResult = $conn->query($classNameQuery);
 
 // Haetaan kaikki ohjaajat
+// Tässä kyselyssä haetaan kaikki ohjaajien nimet ja niiden tunnisteet 'Ohjaajat' taulusta.
+// Tämä antaa listan kaikista saatavilla olevista ohjaajista.
 $instructorQuery = "SELECT instructor_id, name FROM Ohjaajat";
 $instructorResult = $conn->query($instructorQuery);
+
 ?>
 
 <!DOCTYPE html>
@@ -136,7 +167,7 @@ $instructorResult = $conn->query($instructorQuery);
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="varaus.js"></script>
 
     <?php include_once 'footer.php'; ?>
 

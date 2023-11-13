@@ -1,15 +1,26 @@
 <?php
+// Käynnistää uuden tai jatkaa olemassa olevaa istuntoa.
 session_start();
+
+// Määrittelee vakion 'REDIRECT_LOCATION' uudelleenohjauksen osoitteeksi 'join.php'-sivulle.
+define('REDIRECT_LOCATION', 'Location: join.php');
+
+
+// Tuo tietokantayhteyden luova skripti.
 require 'includes/dbconnect.php';
 
+// Funktio tarkistamaan, onko sähköpostiosoite jo käytössä tietokannassa.
 function isEmailTaken($email, $conn)
 {
+    // Valmistelee SQL-lauseen, joka etsii käyttäjiä annetulla sähköpostiosoitteella.
     $stmt = $conn->prepare("SELECT * FROM Asiakkaat WHERE email = ?");
-    $stmt->execute([$email]);
-    return $stmt->fetch() ? true : false;
+    $stmt->execute([$email]); // Suorittaa SQL-lauseen annetulla sähköpostiosoitteella.
+    return $stmt->fetch() ? true : false; // Palauttaa true, jos sähköposti löytyy, muuten false.
 }
 
+// Tarkistaa, onko lähetetty pyyntö POST-metodilla.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ottaa käyttäjän syöttämät tiedot POST-pyynnöstä.
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -19,41 +30,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $city = $_POST['city'];
     $postal_code = $_POST['postal_code'];
 
+    // Tallentaa lomaketiedot istuntoon myöhempää käyttöä varten.
     $_SESSION['form_data'] = $_POST;
-    unset($_SESSION['error_message']);
+    unset($_SESSION['error_message']); // Poistaa mahdolliset aikaisemmat virheviestit.
 
-    // Yksinkertaistetaan virheiden tarkistusta
+    // Tarkistaa, täsmäävätkö annetut salasanat.
     if ($password !== $confirm_password) {
         $_SESSION['error_message'] = 'Salasanat eivät täsmää. ';
-    } elseif (isEmailTaken($email, $conn)) {
+    } elseif (isEmailTaken($email, $conn)) { // Tarkistaa, onko sähköpostiosoite jo käytössä.
         $_SESSION['error_message'] = 'Sähköposti on jo käytössä. ';
     }
 
+    // Jos virheviesti on asetettu, ohjataan käyttäjä takaisin lomakkeelle.
     if (isset($_SESSION['error_message'])) {
-        header('Location: join.php');
+        header(REDIRECT_LOCATION);
         exit;
     }
 
+    // Salaa käyttäjän salasanan.
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Muodostaa käyttäjän osoitteen yhdeksi merkkijonoksi.
     $address = "$street, $city, $postal_code";
 
+    // Vahvistussähköpostin lähetysasetukset.
+    $to = $email;
+    $subject = 'Tilin vahvistus';
+    $message = "Hei $name, kiitos rekisteröitymisestäsi.\n\nVahvista sähköpostiosoitteesi klikkaamalla tästä linkistä.";
+    $headers = 'From: webmaster@example.com' . "\r\n" .
+        'Reply-To: webmaster@example.com' . "\r\n" .
+        'X-Mailer: PHP/' . phpversion();
+
+    // Yrittää tallentaa käyttäjän tiedot tietokantaan.
     try {
         $stmt = $conn->prepare("INSERT INTO Asiakkaat (name, email, password, phone, address) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$name, $email, $hashed_password, $phone, $address]);
 
         $_SESSION['success_message'] = 'Rekisteröityminen onnistui. Tarkista sähköpostisi vahvistusta varten.';
-        unset($_SESSION['form_data']); // Poistetaan lomaketiedot onnistuneen rekisteröinnin jälkeen
-        header('Location: join.php');
+        unset($_SESSION['form_data']); // Poistaa lomaketiedot onnistuneen rekisteröinnin jälkeen.
+        header(REDIRECT_LOCATION);
         exit;
     } catch (PDOException $e) {
+        // Tallentaa virheviestin istuntoon, jos tietokantaoperaatio epäonnistuu.
         $_SESSION['error_message'] = 'Rekisteröityminen epäonnistui: ' . $e->getMessage();
-        header('Location: join.php');
+        header(REDIRECT_LOCATION);
         exit;
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="fi">

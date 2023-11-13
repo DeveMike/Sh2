@@ -22,14 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Tähän lisätään tietokantakyselyt ja salasanan tarkistus...
-
         // Jos käyttäjätunnusta ei löydy
         if (!$fetchedUser && !$fetchedInstructor) {
             $message = 'Käyttäjää ei ole olemassa.';
         }
         // Jos salasana on väärä
-        else if ($fetchedUser && !password_verify($password, $fetchedUser['password'])) {
+        elseif ($fetchedUser && !password_verify($password, $fetchedUser['password'])) {
             $message = 'Väärä salasana tai sähköposti.';
         }
     }
