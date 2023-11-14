@@ -9,160 +9,6 @@
     scroll-behavior: smooth;
 }
 
-/* Nav barin tyyli */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0a0a0a;
-    height: 123px;
-    padding: 0 69px;
-    color: #ffffff;
-    border-bottom: #07a04a solid 1px;
-}
-
-.logo {
-    width: 296px;
-    height: 57px;
-}
-
-.nav-links {
-    margin-top: 12px;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.nav-links li {
-    margin-right: 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: 17px;
-    letter-spacing: 0;
-    position: relative;
-}
-
-.nav-links a {
-    color: #ffffff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.icon {
-    margin-left: 5px;
-    transition: transform 0.3s;
-}
-
-/* Lisätty kääntyvä ikoni */
-.has-dropdown:hover .icon {
-    transform: rotate(180deg);
-}
-
-/* Tyyli alamenuille */
-.submenu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #0a0a0a;
-    opacity: 0.9;
-    border-radius: 0 0 5px 5px;
-    padding: 10px;
-    min-width: 100%;
-    z-index: 1;
-    border-top: 2px solid #07a04a;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.submenu ul li a {
-    border-bottom: 1px solid #DF2835; 
-    padding-bottom: 5px; 
-}
-
-
-.submenu ul li a {
-    display: inline-block; 
-    text-align: center; /* Lisätty vaakasuuntainen keskittäminen VAIVALLA.. */
-    color: #ffffff;
-    font-family: 'Montserrat', sans-serif;
-}
-
-
-.submenu ul li a.submenu-link {
-    text-align: center;
-}
-
-
-.has-dropdown ul {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin-left: 0; 
-}
-
-.has-dropdown li {
-    margin: 0;
-    padding: 5px 5px; 
-    text-align: center;
-    font-size: 15px;
-}
-
-.has-dropdown:hover .submenu {
-    display: block;
-}
-
-.buttons {
-    display: flex;
-    align-items: center;
-}
-
-.join-button {
-    text-decoration: none;
-    background-color: #df2835;
-    color: #ffffff;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-family: "Montserrat-Medium", sans-serif;
-    font-weight: 500;
-    font-size: 17px;
-    text-align: center;
-    margin-right: 20px;
-    transition: background-color 0.3s ease;
-    
-}
-
-.login-button {
-    text-decoration: none;
-    background-color: #068d40;
-    color: #ffffff;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-family: "Montserrat-Medium", sans-serif;
-    font-weight: 500;
-    font-size: 17px;
-    text-align: center;
-    margin-right: 20px;
-    transition: background-color 0.3s ease;
-}
-
-
-.login-button:hover {
-    background-color: #d11622;
-}
-
-.join-button:hover {
-    background-color: #068d40;
-}
-
 /* Welcome Sectionin tyyli */
 .welcome-section {
     height: 640px;
@@ -486,112 +332,6 @@
     color:yellow ;
 }
 
-/* Footer-style */
-/*
-!Muistutus tietyn elementin valinnasta!
- .footer-section:nth-of-type(2) {
-    background-color: #07a04a;
-} */
-
-
-.footer {
-    position: relative;
-    height: 280px;
-    background-color: #fff;
-    padding: 0 65px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-
-.footer-logo img {
-    width: 369px;
-    height: 76px;
-}
-
-.footer-section {
-    padding: 40px;
-}
-
-
-.footer-section h4 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 5px;
-}
-
-.footer-section ul li a {
-    text-decoration: none;
-    color: #000;
-    font-size: 14px;
-}
-
-.footer-section p {
-    font-size: 14px;
-    margin-top: 10px;
-    color: #000;
-}
-
-.footer-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-button,
-.join-button {
-    width: 150px;
-    height: 40px;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-.footer-line {
-    position: absolute;
-    bottom: 30px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #07a04a;
-}
-    .footer-text {
-        position: absolute;
-        left: 65px;
-        bottom: 0;
-        color: #0a0a0a;
-    }
-    
-    /* Ikonit ja teksti "Seuraa meitä" */
-    .footer-icons {
-        position: absolute;
-        right: 65px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-    }
-    
-    .footer-icons p {
-        color: #0a0a0a;
-        margin-right: 5px;
-    }
-    
-    .footer-icons img {
-        width: 24px;
-        margin-right: 10px;
-    }
-
 
     /* Keskisuuret näytöt (Tablets) */
 @media (min-width: 601px) and (max-width: 1024px) {
@@ -713,65 +453,13 @@
     .info-block p, .info-block h3 {
         margin-left: 70px;
     }
-    
-      .footer {
-        flex-direction: column;
-        height: auto;
-        padding: 20px 30px;
-      }
-      .footer-logo img {
-        width: 280px;
-        height: 58px;
-      }
-      .footer-section {
-        padding: 20px;
-      }
-      .footer-section h4 {
-        font-size: 16px;
-      }
-      .footer-section ul li a, .footer-section p {
-        font-size: 12px;
-      }
-      .login-button,
-      .join-button {
-        width: 120px;
-        height: 35px;
-        font-size: 12px;
-      }
-      .footer-text, .footer-icons {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        right: auto;
-      }
-      .footer-icons img {
-        width: 20px;
-        margin-right: 5px;
-      }
-    
-   
   }
   
   /* Pienet näytöt (Mobiilit) */
   @media (max-width: 600px) {
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      height: auto;
-      padding: 20px;
-    }
     .logo {
       width: 200px;
       height: 40px;
-    }
-    .nav-links {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .nav-links li {
-      margin-right: 0;
-      margin-bottom: 10px;
-      font-size: 14px;
     }
     .join-button, .login-button {
       padding: 6px 12px;
@@ -782,11 +470,11 @@
         height: 420px;
       }
       .welcome-content h1 {
-        font-size: 28px;
+        font-size: 1.5rem;
         margin-bottom: 20px;
       }
       .price-text {
-        font-size: 24px;
+        font-size: 1.4rem;
         margin-bottom: 20px;
       }
       .welcome-join-button {
@@ -870,6 +558,12 @@
         padding: 20px 10px;
     }
 
+    .info-image img {
+        border-radius: 20px;
+        width: 15rem;
+        height: 20rem;
+    }
+
     .info-block {
         width: 95%;
         padding: 0;
@@ -877,48 +571,14 @@
     }
 
     .info-block p, .info-block h3 {
-        margin-left: 60px;
+        margin-left: 0px;
+        padding: 2px;
+        text-align: center;
     }
 
     .yellow-text2 {
         width: 95%;
         font-size: 18px;
     }
-
-      .footer {
-        flex-direction: column;
-        height: auto;
-        padding: 20px 15px;
-      }
-      .footer-logo img {
-        width: 220px;
-        height: 45px;
-      }
-      .footer-section {
-        padding: 15px;
-      }
-      .footer-section h4 {
-        font-size: 14px;
-      }
-      .footer-section ul li a, .footer-section p {
-        font-size: 11px;
-      }
-      .login-button,
-      .join-button {
-        width: 100px;
-        height: 30px;
-        font-size: 11px;
-      }
-      .footer-text, .footer-icons {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        right: auto;
-      }
-      .footer-icons img {
-        width: 18px;
-        margin-right: 5px;
-      }
-   
   }
   

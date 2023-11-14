@@ -1,20 +1,9 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-/* Footer-style */
-/*
-!Muistutus tietyn elementin valinnasta!
- .footer-section:nth-of-type(2) {
-    background-color: #07a04a;
-} */
-
+/* Footer tyylit */
 
 .footer {
     position: relative;
-    height: 280px;
+    height: 30vh;
     background-color: #fff;
     padding: 0 65px;
     display: flex;
@@ -66,14 +55,47 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 15px;
 }
 
-.login-button,
-.join-button {
-    width: 150px;
-    height: 40px;
-    font-size: 14px;
-    margin-top: 10px;
+.flogin-button{
+    text-decoration: none;
+    background-color: #068d40;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease; 
+}
+
+.fjoin-button {
+    text-decoration: none;
+    background-color: #df2835;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: "Montserrat-Medium", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.flogin-button:hover {
+    background-color: #d11622;
+}
+
+.fjoin-button:hover {
+    background-color: #068d40;
 }
 
 .footer-line {
@@ -84,11 +106,12 @@
     height: 1px;
     background-color: #07a04a;
 }
-    .footer-text {
-        position: absolute;
-        left: 65px;
-        bottom: 0;
-        color: #0a0a0a;
+
+.footer-text {
+    position: absolute;
+    left: 65px;
+    bottom: 0;
+    color: #0a0a0a;
     }
     
     /* Ikonit ja teksti "Seuraa meitä" */
@@ -109,3 +132,241 @@
         width: 24px;
         margin-right: 10px;
     }
+    
+    
+  /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .footer{
+        background-color: rgb(0, 255, 42);
+    }
+    .footer {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 15px;
+      }
+      .footer-logo img {
+        width: 220px;
+        height: 45px;
+      }
+      .footer-section {
+        padding: 15px;
+      }
+      .footer-section h4 {
+        font-size: 14px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 11px;
+      }
+      .flogin-button,
+      .fjoin-button {
+        margin-right: 0;
+        width: 13vh;
+        font-size: 10px;
+        height: 4vh;
+      }
+      .footer-buttons {
+        flex-direction: row; 
+        margin-top: 20px; 
+        gap: 20px;
+    }
+
+
+    .footer-line {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+    }
+
+    .footer-text, .footer-icons {
+        position: relative; 
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+
+    .footer-icons {
+        justify-content: center;
+    }
+   
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 767px) {
+    .footer{
+        background-color: rgb(0, 215, 183);
+    }
+    .footer {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 15px;
+      }
+      .footer-logo img {
+        width: 220px;
+        height: 45px;
+      }
+      .footer-section {
+        padding: 15px;
+      }
+      .footer-section h4 {
+        font-size: 14px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 11px;
+      }
+      .f-button,
+      .fjoin-button {
+        width: 100px;
+        height: 30px;
+        font-size: 11px;
+        margin: 10px;
+      }
+      .footer-buttons {
+        flex-direction: row; 
+        margin-top: 20px;
+    }
+
+
+    .footer-line {
+        position: relative;
+        bottom: auto; 
+        margin-top: 20px;
+    }
+
+    .footer-text, .footer-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+
+    .footer-icons {
+        justify-content: center;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+
+    .footer{
+        background-color: rgb(81, 0, 255);
+        padding: 34px;
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+    }
+
+    .footer-section {
+        padding: 20px;
+    }
+
+      .footer-logo img {
+        width: 280px;
+        height: 58px;
+      }
+    
+      .footer-section h4 {
+        font-size: 16px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 12px;
+      }
+
+       .flogin-button,
+       .fjoin-button {
+        width: 150px;
+        height: 42px;
+        font-size: 11px;
+        margin: 10px;
+      }
+      .footer-buttons {
+        flex-direction: row;
+        margin-top: 20px;
+    }
+
+
+    .footer-line {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+    }
+
+    .footer-text, .footer-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+
+    .footer-icons {
+        justify-content: center;
+    }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) and (max-width:1200px) {
+
+    .footer{
+        background-color: rgb(255, 0, 251);
+        padding: 34px;
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+    }
+
+    .footer-section {
+        padding: 20px;
+    }
+
+      .footer-logo img {
+        width: 280px;
+        height: 58px;
+      }
+    
+      .footer-section h4 {
+        font-size: 16px;
+      }
+      .footer-section ul li a, .footer-section p {
+        font-size: 12px;
+      }
+      .flogin-button,
+      .fjoin-button {
+        width: 150px;
+        height: 42px;
+        font-size: 11px;
+        margin: 10px;
+      }
+      .footer-buttons {
+        flex-direction: row;
+        margin-top: 20px;
+    }
+
+
+    .footer-line {
+        position: relative;
+        bottom: auto; 
+        margin-top: 20px;
+    }
+
+    .footer-text, .footer-icons {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+
+    .footer-icons {
+        justify-content: center;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) 
+@media only screen and (min-width: 1200px) {
+    .footer{
+        background-color: #07a04a;
+    }
+} */

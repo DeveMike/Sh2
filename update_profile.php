@@ -64,6 +64,8 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lomake</title>
     <link rel="stylesheet" href="update_profile.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="footer.css">
 </head>
 
 <body>
@@ -124,11 +126,6 @@ try {
         </form>
     </div>
 
-    <script>
-        window.setTimeout(function() {
-            document.querySelector(".alert").style.display = 'none';
-        }, 5000); // Viesti katoaa 5 sekunnin kuluttua
-    </script>
 
     <script src="update_profile.js"></script>
 

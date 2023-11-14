@@ -1,7 +1,7 @@
 <?php
+
 // Käynnistää uuden tai jatkaa olemassa olevaa istuntoa.
 session_start();
-
 
 // Luo CSRF-tokenin, jos sitä ei ole vielä asetettu.
 if (empty($_SESSION['csrf_token'])) {
@@ -15,6 +15,7 @@ define('REDIRECT_LOCATION', 'Location: join.php');
 require 'includes/dbconnect.php';
 
 include 'csp-header.php';
+
 
 // Funktio syötteen puhdistamiseen.
 function cleanInput($data)
@@ -113,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <body>
-    <?php include_once 'navbar.php'; ?>
+    <?php require_once 'navbar.php'; ?>
 
     <?php if (isset($_SESSION['success_message'])) : ?>
         <div class="alert alert-success">
@@ -165,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 
-    <?php include_once 'footer.php'; ?>
+    <?php require_once 'footer.php'; ?>
 
     <script src="join.js"></script>
 </body>

@@ -34,16 +34,16 @@ include 'csp-header.php';
         <?php
         if (isset($_SESSION['role']) && $_SESSION['role'] === 'instructor') {
             // Ohjaaja on kirjautunut sisään
-            echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-            echo '<a href="instructor.php" class="join-button">Oma tili</a>';
+            echo '<a href="logout.php" class="flogin-button">Kirjaudu ulos</a>';
+            echo '<a href="instructor.php" class="fjoin-button">Oma tili</a>';
         } elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'customer') {
             // Asiakas on kirjautunut sisään
-            echo '<a href="logout.php" class="login-button">Kirjaudu ulos</a>';
-            echo '<a href="customer.php" class="join-button">Oma tili</a>';
+            echo '<a href="logout.php" class="flogin-button">Kirjaudu ulos</a>';
+            echo '<a href="customer.php" class="fjoin-button">Oma tili</a>';
         } else {
             // Kukaan ei ole kirjautunut sisään
-            echo '<a href="login.html" class="login-button">Kirjaudu sisään</a>';
-            echo '<a href="join.php" class="join-button">Liity Jäseneksi</a>';
+            echo '<a href="login.html" class="flogin-button">Kirjaudu sisään</a>';
+            echo '<a href="join.php" class="fjoin-button">Liity Jäseneksi</a>';
         }
 
         ?>
