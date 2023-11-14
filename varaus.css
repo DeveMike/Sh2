@@ -428,13 +428,14 @@ label{
     height: 1px;
     background-color: #07a04a;
 }
+
     .footer-text {
         position: absolute;
         left: 65px;
         bottom: 0;
         color: #0a0a0a;
     }
-    
+
     /* Ikonit ja teksti "Seuraa meitä" */
     .footer-icons {
         position: absolute;
@@ -443,12 +444,12 @@ label{
         display: flex;
         align-items: center;
     }
-    
+
     .footer-icons p {
         color: #0a0a0a;
         margin-right: 5px;
     }
-    
+
     .footer-icons img {
         width: 24px;
         margin-right: 10px;

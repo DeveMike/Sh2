@@ -1,3 +1,7 @@
+<?php
+include 'csp-header.php';
+?>
+
 <nav class="navbar">
     <a href="etusivu.php">
         <img src="assets/Asset 5.svg" alt="Logo" class="logo"></a>

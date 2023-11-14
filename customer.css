@@ -179,6 +179,28 @@
     background-color: rgb(255, 255, 255);
 }
 
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    text-align: center;
+    width: 40%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
 
 /* Profiili stylet*/
 .user-profile {

@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+include 'csp-header.php';
+
 ?>
 
 <!DOCTYPE html>

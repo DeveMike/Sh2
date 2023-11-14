@@ -8,6 +8,9 @@ session_start();
 
 require 'includes/dbconnect.php';
 
+include 'csp-header.php';
+
+
 // Tarkista, onko käyttäjä kirjautunut sisään
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -100,12 +103,18 @@ $ilmoituksetStmt->execute([$user_id]);
 
 $ilmoitukset = $ilmoituksetStmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($ilmoitukset as $ilmoitus) {
-    echo '<div class="alert alert-info">' . htmlspecialchars($ilmoitus['viesti']) . '</div>';
-    $merkintaQuery = "UPDATE ilmoitukset SET luettu = 1 WHERE ilmoitus_id = ?";
-    $merkintaStmt = $conn->prepare($merkintaQuery);
-    $merkintaStmt->execute([$ilmoitus['ilmoitus_id']]);
+if (!empty($ilmoitukset)) {
+    // Asetetaan ensimmäinen ilmoitus virheviestiksi
+    $_SESSION['error_message'] = $ilmoitukset[0]['viesti'];
+
+    // Merkitään ilmoitukset luetuiksi tietokannassa
+    foreach ($ilmoitukset as $ilmoitus) {
+        $merkintaQuery = "UPDATE ilmoitukset SET luettu = 1 WHERE ilmoitus_id = ?";
+        $merkintaStmt = $conn->prepare($merkintaQuery);
+        $merkintaStmt->execute([$ilmoitus['ilmoitus_id']]);
+    }
 }
+
 
 ?>
 
@@ -122,6 +131,14 @@ foreach ($ilmoitukset as $ilmoitus) {
 <body>
     <?php include_once 'navbar.php' ?>
 
+    <?php if (isset($_SESSION['error_message'])) : ?>
+        <div class="alert alert-danger">
+            <?php echo $_SESSION['error_message']; ?>
+            <?php unset($_SESSION['error_message']); // Poistetaan viesti sessiosta 
+            ?>
+        </div>
+    <?php endif; ?>
+
 
     <section class="user-profile">
         <div class="info-box1">Name:
@@ -132,7 +149,7 @@ foreach ($ilmoitukset as $ilmoitus) {
             <?php echo $email; ?>
         </div>
         <div class="info-box4">Status: Yellow</div>
-        <a href="update_profile-deta.php" class="edit-profile-link">Muokkaa profiilia</a>
+        <a href="update_profile.php" class="edit-profile-link">Muokkaa profiilia</a>
     </section>
 
     <div class="membership-details">
@@ -140,12 +157,6 @@ foreach ($ilmoitukset as $ilmoitus) {
         <button class="cancel-button">Irtisanoudu</button>
         <div class="membership-price">24.90€/kk</div>
     </div>
-
-    <script>
-        // Generoidaan satunnainen numero 1-10000
-        document.getElementById("day-number").textContent += Math.floor(Math.random() * 10000) + 1;
-    </script>
-
 
     <div class="white-section">
         <div class="content-container">
@@ -194,6 +205,7 @@ foreach ($ilmoitukset as $ilmoitus) {
         </div>
     </div>
     <script src="customer.js"></script>
+    <script src="join.js"></script>
 
     <?php include_once 'footer.php' ?>
 

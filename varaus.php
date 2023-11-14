@@ -1,4 +1,10 @@
 <?php
+// Käynnistetään output buffering.
+// Tämä tallentaa kaiken skriptin tulosteen välimuistiin sen sijaan, että se lähetettäisiin suoraan selaimelle.
+// Tämä mahdollistaa otsikoiden (headers) muokkaamisen myöhemmin skriptin suorituksen aikana,
+// koska todellista lähetystä selaimelle ei ole vielä tapahtunut.
+ob_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -14,10 +20,11 @@ session_start();
 // Muussa tapauksessa 'user_id' asetetaan arvoksi null, mikä tarkoittaa, että käyttäjä ei ole kirjautunut sisään tai tunnistetta ei ole asetettu.
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
-
-
 // Sisällytä tietokantayhteyden tiedot
 require 'includes/dbconnect.php';
+
+include 'csp-header.php';
+
 
 // Sisällytä viikonpäivät generoiva tiedosto
 include_once 'get_weekdays.php';
@@ -66,24 +73,31 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // Haetaan kaikki tulokset assosiat
 // Tässä käytetään SUBSTRING_INDEX-funktiota erottelemaan kaupungin nimi osoitteen lopusta.
 // 'address' sarakkeesta otetaan viimeinen sana, joka asetetaan kaupungin nimeksi.
 $cityQuery = "SELECT DISTINCT SUBSTRING_INDEX(address, ' ', -1) as city FROM Jumpat";
-$cityResult = $conn->query($cityQuery);
+$cityStmt = $conn->prepare($cityQuery);
+$cityStmt->execute();
+$cityResult = $cityStmt->fetchAll();
 
 // Haetaan kaikki uniikit osoitteet
 // Tämä kysely valitsee kaikki tietyt osoitteet 'Jumpat' taulusta, joka vähentää toistuvia tietoja.
 $addressQuery = "SELECT DISTINCT address FROM Jumpat";
-$addressResult = $conn->query($addressQuery);
+$addressStmt = $conn->prepare($addressQuery);
+$addressStmt->execute();
+$addressResult = $addressStmt->fetchAll();
 
 // Haetaan kaikki uniikit tunnin nimet
 // Tässä kyselyssä valitaan tietyt 'name' sarakkeen arvot 'Jumpat' taulusta.
 $classNameQuery = "SELECT DISTINCT name FROM Jumpat";
-$classNameResult = $conn->query($classNameQuery);
+$classNameStmt = $conn->prepare($classNameQuery);
+$classNameStmt->execute();
+$classNameResult = $classNameStmt->fetchAll();
 
 // Haetaan kaikki ohjaajat
 // Tässä kyselyssä haetaan kaikki ohjaajien nimet ja niiden tunnisteet 'Ohjaajat' taulusta.
 // Tämä antaa listan kaikista saatavilla olevista ohjaajista.
 $instructorQuery = "SELECT instructor_id, name FROM Ohjaajat";
-$instructorResult = $conn->query($instructorQuery);
-
+$instructorStmt = $conn->prepare($instructorQuery);
+$instructorStmt->execute();
+$instructorResult = $instructorStmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +106,7 @@ $instructorResult = $conn->query($instructorQuery);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="varaukset.css">
+    <link rel="stylesheet" type="text/css" href="varaus.css">
     <title>Varaukset</title>
 </head>
 
@@ -103,7 +117,6 @@ $instructorResult = $conn->query($instructorQuery);
     <div class="content-container">
         <!-- Vasen laatikko -->
         <?php include_once 'search_container_varaus.php'; ?>
-
         <div class="classes-container">
             <?php echo generateWeekdays(); ?>
             <div class="classes-list">
@@ -129,7 +142,7 @@ $instructorResult = $conn->query($instructorQuery);
                             $endDate->format('H:i')
                         );
 
-                        $stmt = $conn->prepare("SELECT * FROM 
+                        $stmt = $conn->prepare("SELECT * FROM
                         varaukset WHERE customer_id = :user_id AND class_id = :class_id");
                         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                         $stmt->bindParam(':class_id', $row["class_id"], PDO::PARAM_INT);
@@ -167,10 +180,17 @@ $instructorResult = $conn->query($instructorQuery);
         </div>
     </div>
 
-    <script src="varaus.js"></script>
-
     <?php include_once 'footer.php'; ?>
+
+    <script src="varaus.js"></script>
 
 </body>
 
 </html>
+<?php
+// Lopetetaan output buffering ja lähetetään kaikki välimuistiin tallennettu sisältö selaimelle.
+// Tämä funktio tyhjentää output bufferin ja lähettää sen sisällön selaimelle.
+// Tämä on tärkeää, koska se varmistaa, että kaikki skriptin tuottama sisältö
+// todella näytetään käyttäjälle.
+ob_end_flush();
+?>

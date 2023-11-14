@@ -1,3 +1,6 @@
+// Generoidaan satunnainen numero 1-10000
+document.getElementById("day-number").textContent += Math.floor(Math.random() * 10000) + 1;
+
 fetch('getUserReservations.php')
     .then(response => response.json())
     .then(data => {
@@ -157,6 +160,10 @@ function updateReservationsUI(data) {
     });
 
 }
+
+//Ilmoituksen/viorheviestin katoaminen 
+
+
 function toggleMenu() {
     const navLinks = document.querySelector('.nav-links');
     const navOverlay = document.querySelector('.nav-overlay');
@@ -171,6 +178,7 @@ function toggleMenu() {
 
    
 }
+
 /* document.querySelector('.sub-menu').addEventListener('click', function() {
     var allLinks = document.querySelectorAll('.nav-links a');
     var submenu = document.querySelector('.submenu');

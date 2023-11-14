@@ -11,7 +11,18 @@ if (!isset($_SESSION['csrf_token'])) {
 // Sisällytä tietokantayhteyden tiedot
 require 'includes/dbconnect.php';
 
+include 'csp-header.php';
+
+
 $message = '';
+
+function cleanInput($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -19,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
         $message = 'CSRF token validation failed.';
     } else {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = cleanInput($_POST['email']);
+        $password = cleanInput($_POST['password']);
 
         // Jos käyttäjätunnusta ei löydy
         if (!$fetchedUser && !$fetchedInstructor) {
@@ -140,13 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </main>
 
-    <script>
-        window.setTimeout(function() {
-            var alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
-                alert.style.display = 'none';
-            });
-        }, 5000); // Viestit katoavat 5 sekunnin kuluttua
+    <script src="login.js">
     </script>
 
     <?php require_once 'footer.php'; ?>

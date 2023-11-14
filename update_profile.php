@@ -1,43 +1,60 @@
 <?php
 
+// Asetetaan PHP:n virheilmoitukset näkyviksi (hyödyllistä kehitysvaiheessa)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Aloittaa uuden tai jatkaa olemassa olevaa istuntoa
 session_start();
 
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+// Sisällytetään tietokantayhteyden muodostava tiedosto
 require 'includes/dbconnect.php';
 
-// Tarkista, onko käyttäjä kirjautunut sisään
+include 'csp-header.php';
+
+
+// Tarkistetaan, onko käyttäjä kirjautunut sisään
 if (!isset($_SESSION['user_id'])) {
+    // Jos ei, ohjataan käyttäjä kirjautumissivulle
     header('Location: login.php');
     exit;
 }
 
-$customerId = $_SESSION['user_id']; // Oletetaan, että 'user_id' on asiakkaan ID
+// Tallennetaan kirjautuneen käyttäjän ID muuttujaan
+$customerId = $_SESSION['user_id'];
 
+// Yritetään suorittaa seuraavat toimenpiteet
 try {
-    // Oletetaan, että käytät muuttujaa $pdo tietokantayhteyden luomiseen.
+    // Valmistellaan SQL-lause, joka hakee käyttäjän tiedot tietokannasta
     $stmt = $conn->prepare("SELECT name, email, phone, address FROM Asiakkaat WHERE customer_id = :customerId");
+    // Suoritetaan SQL-lause, syöttämällä siihen käyttäjän ID
     $stmt->execute(['customerId' => $customerId]);
+    // Haetaan käyttäjän tiedot ja tallennetaan ne assosiatiiviseen taulukkoon
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // Tarkistetaan, löytyikö käyttäjä
     if ($user) {
-        // Erottele nimi etu- ja sukunimeen
+        // Jos käyttäjä löytyi, erotellaan nimi etu- ja sukunimeen
         list($firstName, $lastName) = array_pad(explode(' ', $user['name'], 2), 2, '');
-        // Erottele osoite katuosoitteeseen, postinumeroon ja kaupunkiin
+        // Erotellaan osoite katuosoitteeseen, postinumeroon ja kaupunkiin
         list($streetAddress, $city, $postCode) = array_pad(explode(',', $user['address'], 3), 3, '');
     } else {
-        // Käyttäjää ei löytynyt, käsittele tilanne esimerkiksi ohjaamalla virhesivulle
+        // Jos käyttäjää ei löytynyt, heitetään poikkeus
         throw new Exception('Käyttäjää ei löydy tietokannasta.');
     }
 } catch (Exception $e) {
-    // Käsittele virhe täällä, esimerkiksi näyttämällä virheilmoitus
+    // Jos tapahtuu virhe, näytetään virheilmoitus
     echo "Virhe: " . $e->getMessage();
     exit;
 }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fi">
@@ -71,7 +88,7 @@ try {
     <?php endif; ?>
 
     <div class="form-container">
-        <form id="updateForm" action="tallennaProfileTiedot.php" method="post">
+        <form id="updateForm" action="update_profile_add.php" method="post">
             <fieldset disabled>
                 <legend>Henkilötiedot</legend>
                 <input type="text" name="etunimi" placeholder="Etunimi" value="<?php echo htmlspecialchars($firstName); ?>" static>
@@ -102,7 +119,7 @@ try {
                 <input type="password" name="uusiSalasanaUudelleen" placeholder="Toista Uusi Salasana">
                 <button type="submit" name="muutaSalasana">Muuta Salasana</button>
             </fieldset>
-
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <button type="submit" name="tallennaMuutokset" class="tallenna">Tallenna</button>
         </form>
     </div>

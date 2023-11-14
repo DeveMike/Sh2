@@ -112,13 +112,13 @@ document.querySelectorAll('.day').forEach(function(dayElement) {
         const selectedDate = this.getAttribute('data-day');
         const selectedCity = document.querySelector('#citySelect').value;
 
-       // Ei enää vaadita kaupungin valintaa
+       // Ei vaadita kaupungin valintaa
         // fetch-kutsuun lisätään kaupunki vain, jos se on valittu
         const cityParam = selectedCity ? `&city=${selectedCity}` : '';
         fetch(`fetch_data.php?day=${selectedDate}${cityParam}`)
         .then(response => response.json())
         .then(data => {
-            console.log("Saatu data päiväelementistä:", data); // Tämä logi näyttää sinulle, mitä dataa saat.
+            console.log("Saatu data päiväelementistä:", data);
             if (Array.isArray(data.classes) && data.classes.length > 0) {
                 updateUI(data.classes, data.instructors);
             } else {
@@ -210,7 +210,6 @@ function updateDropdown(selector, items, placeholder = "Valitse...") {
     });
     dropdown.value = currentValue; // Asetetaan tallennettu arvo takaisin
     console.log(`Valitsin ${selector} päivitetty.`);
-    
 }
 
 // Funktio päivittää UI:n jumppatunneilla
@@ -224,7 +223,7 @@ function updateUI(classes, instructors) {
         resultsDiv.innerHTML = '<p style="color: white;">Ei tuloksia</p>';
         return;
     }
-    console.log("Luokkadata:", classes); // Korjattu 'data.classes' -> 'classes'
+    console.log("Luokkadata:", classes);
 
     classes.forEach(jumppa => {
         const classElement = createClassElement(jumppa, instructors);

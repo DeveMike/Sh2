@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 
 require 'includes/dbconnect.php';
+include 'csp-header.php';
 
 
 if (!isset($_SESSION['user_id'])) {

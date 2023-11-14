@@ -2,6 +2,7 @@
 session_start();
 require 'includes/dbconnect.php';
 
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
@@ -9,11 +10,19 @@ if (!isset($_SESSION['user_id'])) {
 
 $customerId = $_SESSION['user_id']; // Käyttäjän ID sessiosta
 
+
+// Tarkistetaan CSRF-token
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    $_SESSION['error_message'] = 'Virheellinen CSRF-token.';
+    header('Location: update_profile.php');
+    exit;
+}
+
 // Tarkistetaan ensin, onko muutaSalasana-nappia painettu
 if (isset($_POST['muutaSalasana'])) {
-    $nykyinenSalasana = $_POST['nykyinenSalasana'];
-    $uusiSalasana = $_POST['uusiSalasana'];
-    $uusiSalasanaUudelleen = $_POST['uusiSalasanaUudelleen'];
+    $nykyinenSalasana = htmlspecialchars($_POST['nykyinenSalasana']);
+    $uusiSalasana = htmlspecialchars($_POST['uusiSalasana']);
+    $uusiSalasanaUudelleen = htmlspecialchars($_POST['uusiSalasanaUudelleen']);
 
     if (!empty($nykyinenSalasana) && !empty($uusiSalasana) && !empty($uusiSalasanaUudelleen)) {
         if ($uusiSalasana === $uusiSalasanaUudelleen && strlen($uusiSalasana) >= 6) {
@@ -38,16 +47,16 @@ if (isset($_POST['muutaSalasana'])) {
     } else {
         $_SESSION['error_message'] = 'Kaikki salasanan muutoskentät tulee täyttää.';
     }
-    header('Location: update_profile-deta.php');
+    header('Location: update_profile.php');
     exit;
 }
 
 // Sitten tarkistetaan, onko tallennaMuutokset-nappia painettu
 if (isset($_POST['tallennaMuutokset'])) {
-    $katuosoite = $_POST['katuosoite'] ?? '';
-    $kaupunki = $_POST['kaupunki'] ?? '';
-    $postinumero = $_POST['postinumero'] ?? '';
-    $puhelin = $_POST['puhelin'] ?? '';
+    $katuosoite = htmlspecialchars($_POST['katuosoite']);
+    $kaupunki = htmlspecialchars($_POST['kaupunki']);
+    $postinumero = htmlspecialchars($_POST['postinumero']);
+    $puhelin = htmlspecialchars($_POST['puhelin']);
     $yhdistettyOsoite = $katuosoite . ', ' . $kaupunki . ', ' . $postinumero;
 
     try {
@@ -61,7 +70,7 @@ if (isset($_POST['tallennaMuutokset'])) {
     } catch (PDOException $e) {
         $_SESSION['error_message'] = 'Yhteystietojen päivitys epäonnistui: ' . $e->getMessage();
     }
-    header('Location: update_profile-deta.php');
+    header('Location: update_profile.php');
     exit;
 }
 // Lähetetään vahvistussähköposti

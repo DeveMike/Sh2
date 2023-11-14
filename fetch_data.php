@@ -1,8 +1,7 @@
 <?php
-// fetch_data.php
-
-error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 session_start();
 require 'includes/dbconnect.php';
@@ -98,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 } elseif ($_SERVER["REQUEST_METHOD"] === "GET") {
-    // GET-pyyntöjen käsittely
+    // GET-pyyntöjen käsittely viikonpäiville
     if (!isset($_SESSION['user_id'])) {
         http_response_code(403); // Forbidden
         echo json_encode(['error' => 'Unauthorized access']);
@@ -146,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         echo json_encode(['classes' => $classes, 'instructors' => $instructors]);
     } catch (PDOException $e) {
-        http_response_code(500); // Internal Server Error
+        http_response_code(500);
         echo json_encode(['error' => $e->getMessage()]);
     }
 } else {

@@ -1,3 +1,7 @@
+<?php
+include 'csp-header.php';
+?>
+
 <footer class="footer">
     <div class="footer-logo">
         <img src="assets/Asset 7.png" alt="Logo" width="369" height="76">
