@@ -1,4 +1,10 @@
 <?php
+// Käynnistetään output buffering.
+// Tämä tallentaa kaiken skriptin tulosteen välimuistiin sen sijaan, että se lähetettäisiin suoraan selaimelle.
+// Tämä mahdollistaa otsikoiden (headers) muokkaamisen myöhemmin skriptin suorituksen aikana,
+// koska todellista lähetystä selaimelle ei ole vielä tapahtunut.
+ob_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -250,3 +256,10 @@ $classes = $stmt->fetchAll();
 </body>
 
 </html>
+<?php
+// Lopetetaan output buffering ja lähetetään kaikki välimuistiin tallennettu sisältö selaimelle.
+// Tämä funktio tyhjentää output bufferin ja lähettää sen sisällön selaimelle.
+// Tämä on tärkeää, koska se varmistaa, että kaikki skriptin tuottama sisältö
+// todella näytetään käyttäjälle.
+ob_end_flush();
+?>

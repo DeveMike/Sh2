@@ -1,6 +1,6 @@
 <?php
-// error_reporting(E_ALL);
-// ini_set('display_errors', '1');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 session_start();
 
 // Luo CSRF-token
@@ -24,6 +24,8 @@ function cleanInput($data)
     return $data;
 }
 
+$fetchedUser = null;
+$fetchedInstructor = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Tarkistetaan CSRF-tokenin oikeellisuus

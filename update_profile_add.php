@@ -73,10 +73,3 @@ if (isset($_POST['tallennaMuutokset'])) {
     header('Location: update_profile.php');
     exit;
 }
-// Lähetetään vahvistussähköposti
-$to = $email;
-$subject = 'Tilin vahvistus';
-$message = "Hei $name, kiitos rekisteröitymisestäsi.\n\nVahvista sähköpostiosoitteesi klikkaamalla tästä linkistä.";
-$headers = 'From: webmaster@example.com' . "\r\n" .
-    'Reply-To: webmaster@example.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
