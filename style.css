@@ -313,21 +313,26 @@
     white-space: nowrap;
 }
 
-.info-block p {
-    margin-left: 60px; /* Lisätty marginaali */
-    margin-top: 10px; 
-    margin-bottom: 10px; 
-    padding: 10px;
-    font-size: 20px;
-    line-height: 30px;
-    white-space: normal; 
-    text-align: justify;
+.text-wrapper {
+    max-width: 874px; /* tai 100% jos haluat sen olevan responsiivinen */
+    margin: 0 auto;
 }
 
 
-.yellow-text2 {
-    width: 85%;
+
+.text-wrapper p {
+    text-align: left; /* vaihda justify pois ja kokeile vasemmalle tasattua */
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    max-width: 100%;
+    
+}
+
+
+.yellow-text2 p {
     margin-top: 65px;
+    padding: 0 90px;
     font-size: 20px;
     color:yellow ;
 }
@@ -335,22 +340,8 @@
 
     /* Keskisuuret näytöt (Tablets) */
 @media (min-width: 601px) and (max-width: 1024px) {
-    .navbar {
-      padding: 0 40px;
-    }
-    .logo {
-      width: 250px;
-      height: 50px;
-    }
-    .nav-links li {
-      margin-right: 20px;
-      font-size: 15px;
-    }
-    .join-button, .login-button {
-      padding: 8px 15px;
-      font-size: 15px;
-    }
-
+   
+    
     .welcome-section {
         height: 520px;
       }
@@ -457,15 +448,7 @@
   
   /* Pienet näytöt (Mobiilit) */
   @media (max-width: 600px) {
-    .logo {
-      width: 200px;
-      height: 40px;
-    }
-    .join-button, .login-button {
-      padding: 6px 12px;
-      font-size: 14px;
-    }
-
+   
     .welcome-section {
         height: 420px;
       }
@@ -488,20 +471,21 @@
       }
       .why-us-section h1 {
         font-size: 20px;
-        margin-bottom: 25px;
+        margin: 25px 0;
       }
       .why-us-boxes {
         flex-direction: column;
         padding: 0 15px;
       }
       .why-us-box {
-        width: 95%;
+        width: 100%;
         margin-right: 0;
         margin-bottom: 10px;
         padding: 10px;
       }
       .why-us-box p {
-        font-size: 13px;
+        font-size: 15px;
+        width: 30vh;
       }
       .why-us-box img {
         width: 36px;
@@ -515,6 +499,11 @@
         height: auto;
         padding: 10px;
     }
+    
+    .mbr-container h1,h2{
+        padding:15px 0;
+    }
+    
 
     .membership-options {
         flex-direction: column;
@@ -523,7 +512,7 @@
 
     .membership-option {
         width: 95%;
-        margin-bottom: 15px;
+        margin-bottom: 50px;
         padding: 10px;
     }
 
@@ -544,7 +533,7 @@
         font-size: 15px;
     }
     .info-section {
-        padding: 20px;
+        padding: 30px 20px;
         flex-direction: column;
     }
 
@@ -560,9 +549,24 @@
 
     .info-image img {
         border-radius: 20px;
-        width: 15rem;
-        height: 20rem;
+        width: 20rem;
+        height: 28rem;
     }
+    
+    .info-text h2 {
+    font-size: 20px;
+    margin:0;
+    
+    }
+    
+    .info-text .yellow-text {
+    font-size: 15px;
+}
+
+.info-text p {
+    font-size: 15px;
+    
+}
 
     .info-block {
         width: 95%;
@@ -576,9 +580,34 @@
         text-align: center;
     }
 
-    .yellow-text2 {
-        width: 95%;
-        font-size: 18px;
+    .yellow-line1{
+        margin-top:0;
+        width: 250px;
+
     }
+    
+    .info-block .icon-title-wrapper {
+    margin-top: 51px;
+}
+
+.info-block p{
+    font-size:14px;
+    padding:0;
+    text-align:justify;
+    line-height:normal;
+    
+}
+
+.text-wrapper {
+    margin-top: 1rem;
+}
+
+   .yellow-text2 p{
+    font-size:14px;
+    padding: 2rem;
+    width: 95%;
+    font-size: 18px;
   }
+  
+}
   

@@ -74,14 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = "$street, $city, $postal_code";
 
 
-    // Vahvistussähköpostin lähetysasetukset.
-    $to = $email;
-    $subject = 'Tilin vahvistus';
-    $message = "Hei $name, kiitos rekisteröitymisestäsi.\n\nVahvista sähköpostiosoitteesi klikkaamalla tästä linkistä.";
-    $headers = 'From: webmaster@example.com' . "\r\n" .
-        'Reply-To: webmaster@example.com' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-
 
     // Yrittää tallentaa käyttäjän tiedot tietokantaan.
     try {
@@ -161,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="confirm_password">Vahvista salasana:</label>
             <input type="password" id="confirm_password" name="confirm_password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{6,}" title="Salasanan on oltava vähintään 6 merkkiä pitkä ja sisältää sekä kirjaimia että numeroita." required>
 
-            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+            <input type="hidden" name="csrff_token" value="<?php echo $_SESSION['csrf_token']; ?>">
             <input type="submit" value="Rekisteröidy">
         </form>
     </div>

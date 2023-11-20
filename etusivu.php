@@ -113,7 +113,9 @@ include 'csp-header.php';
                 <img src="assets/Barbell.svg" alt="Icon 1">
                 <h3>Monipuolista Treeniä:</h3>
             </div>
-            <p>Kuntosaleillamme voit nauttia modernista ympäristöstä sekä laadukkaista välineistä, jotka tukevat tavoitteitasi. Tarjoamme myös monipuolista ryhmäliikuntaa eri tyyleissä ja tasoilla. Olitpa sitten innostunut kardiotreenistä, voimaharjoittelusta tai kehoa ja mieltä tasapainottavista lajeista, meillä on jotain jokaiselle.</p>
+            <div class="text-wrapper">
+                <p>Kuntosaleillamme voit nauttia modernista ympäristöstä sekä laadukkaista välineistä, jotka tukevat tavoitteitasi. Tarjoamme myös monipuolista ryhmäliikuntaa eri tyyleissä ja tasoilla. Olitpa sitten innostunut kardiotreenistä, voimaharjoittelusta tai kehoa ja mieltä tasapainottavista lajeista, meillä on jotain jokaiselle.</p>
+            </div>
         </div>
 
         <div class="info-block">
@@ -122,8 +124,10 @@ include 'csp-header.php';
                 <img src="assets/Growth Graph.svg" alt="Icon 2">
                 <h3>Kasvava Yhteisö:</h3>
             </div>
-            <p>Emme tyydy nykyiseen, vaan pyrimme kasvamaan ja kehittymään. Suunnitelmissamme on avata lisää saleja,
-                jotta voimme palvella sinua entistä laajemmin ja monipuolisemmin. Tavoitteenamme on olla Suomen parhain urheilukeskusketju, joka tukee terveyttäsi ja hyvinvointiasi.</p>
+            <div class="text-wrapper">
+                <p>Emme tyydy nykyiseen, vaan pyrimme kasvamaan ja kehittymään.<br>
+                    Suunnitelmissamme on avata lisää saleja,jotta voimme palvella sinua entistä laajemmin ja monipuolisemmin. Tavoitteenamme on olla Suomen parhain urheilukeskusketju, joka tukee terveyttäsi ja hyvinvointiasi.</p>
+            </div>
         </div>
 
         <div class="info-block">
@@ -131,12 +135,17 @@ include 'csp-header.php';
                 <img src="assets/Shop.svg" alt="Icon 3">
                 <h3>Tutustu Meihin:</h3>
             </div>
-            <p>Meidän Strenght & Health 24/7 -sivumme tarjoavat sinulle mahdollisuuden sukeltaa treeniympäristöömme.Yhdessä pyrimme tarjoamaan sinulle parhaat mahdollisuudet saavuttaa omat tavoitteesi terveyden ja kunnon suhteen. Strenght & Health 24/7 on myös osa verkkokauppatiimiämme “Strenght & Health”, tarjoten laadukkaita treenivarusteita ja -vaatteita, jotka tukevat aktiivista elämäntapaa. Meiltä löydät kaiken tarvittavan hyvinvointiisi liittyen.</p>
+            <div class="text-wrapper">
+                <p>
+                    Meidän Strenght & Health 24/7-sivumme tarjoavat sinulle mahdollisuuden sukeltaa treeniympäristöömme.<br>
+                    Yhdessä pyrimme tarjoamaan sinulle parhaat mahdollisuudet saavuttaa omat tavoitteesi terveyden ja kunnon suhteen. Strenght & Health 24/7 on myös osa verkkokauppatiimiämme “Strenght & Health”, tarjoten laadukkaita treenivarusteita ja -vaatteita, jotka tukevat aktiivista elämäntapaa. Meiltä löydät kaiken tarvittavan hyvinvointiisi liittyen.
+                </p>
+            </div>
         </div>
 
         <div class="yellow-text2">
-            Olemme täällä sinua varten. Tule tutustumaan Strenght & Health 24/7 -perheeseen ja anna meidän auttaa sinua
-            kohti vahvempaa ja terveempää elämää. Yhdessä teemme ihmisistä terveempiä ja onnellisempia!
+            <p> Olemme täällä sinua varten. Tule tutustumaan Strenght & Health 24/7 -perheeseen ja anna meidän auttaa sinua
+                kohti vahvempaa ja terveempää elämää. Yhdessä teemme ihmisistä terveempiä ja onnellisempia!</p>
         </div>
     </section>
 
